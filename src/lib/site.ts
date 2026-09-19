@@ -6,6 +6,7 @@ export const site_config = {
   github_username: 'tcw165',
   github_repo: 'boyw165.github.io',
   email: 'boyw165@gmail.com',
+  linkedin_url: 'https://www.linkedin.com/in/boyw165/',
 };
 
 export function with_base(path: string = ''): string {
