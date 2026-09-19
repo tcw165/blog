@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { with_base } from '../lib/site';
+---
+
+<BaseLayout title="Not found" current="home">
+  <article class="article">
+    <h1 class="page-title">Page not found</h1>
+    <p>That URL is not part of this archive.</p>
+    <p><a href={with_base()}>Back home</a></p>
+  </article>
+</BaseLayout>

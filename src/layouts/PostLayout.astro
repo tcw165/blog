@@ -1,0 +1,60 @@
+---
+import 'katex/dist/katex.min.css';
+
+import { extract_headings, type PostEntry } from '../lib/posts';
+import { category_slug, format_date, with_base } from '../lib/site';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  entry: PostEntry;
+  raw_body: string;
+}
+
+const { entry, raw_body } = Astro.props;
+const headings = entry.data.toc ? extract_headings(raw_body) : [];
+const description =
+  entry.data.description ??
+  `${entry.data.title} — ${entry.data.categories.join(', ')}`;
+---
+
+<BaseLayout title={entry.data.title} description={description} current="posts">
+  <article class="article">
+    <header>
+      <p class="post-meta">
+        <time datetime={entry.data.pubDate.toISOString()}>
+          {format_date(entry.data.pubDate)}
+        </time>
+        {
+          entry.data.categories.map((category) => (
+            <a class="pill" href={with_base(`categories/${category_slug(category)}/`)}>
+              {category}
+            </a>
+          ))
+        }
+      </p>
+      <h1 class="post-title">{entry.data.title}</h1>
+    </header>
+    {
+      headings.length > 0 && (
+        <nav class="toc" aria-label="Table of contents">
+          <h2>Contents</h2>
+          <ol>
+            {headings.map((heading) => (
+              <li>
+                <a href={`#${heading.id}`}>{heading.text}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <div class="post-body">
+      <slot />
+    </div>
+    <p class="muted">
+      <a href={with_base('posts/')}>All posts</a>
+      ·
+      <a href={with_base()}>Home</a>
+    </p>
+  </article>
+</BaseLayout>
