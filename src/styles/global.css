@@ -212,6 +212,8 @@ pre,
   border-radius: calc(var(--radius) + 4px);
   box-shadow: var(--shadow);
   padding: clamp(1.25rem, 3vw, 2.2rem);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .article h2,
@@ -256,7 +258,10 @@ pre,
   background: var(--code-bg);
   color: var(--code-ink);
   padding: 1rem 1.05rem;
-  overflow-x: auto;
+  overflow: auto;
+  max-width: 100%;
+  min-width: 0;
+  max-height: min(32rem, 70vh);
   border-radius: 10px;
 }
 
@@ -271,6 +276,7 @@ pre,
   background: transparent;
   padding: 0;
   font-size: 0.88rem;
+  white-space: pre;
 }
 
 .toc {

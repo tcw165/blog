@@ -18,7 +18,7 @@ export default defineConfig({
     rehypePlugins: [rehypeSlug, rehypeKatex],
     shikiConfig: {
       theme: 'github-dark',
-      wrap: true,
+      wrap: false,
     },
   },
 });
