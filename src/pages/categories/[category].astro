@@ -1,0 +1,25 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { get_categories, get_posts_by_category } from '../../lib/posts';
+import { with_base } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const categories = await get_categories();
+  return categories.map((category) => ({
+    params: { category: category.slug },
+  }));
+}
+
+const slug = Astro.params.category;
+const { category, posts } = await get_posts_by_category(slug);
+---
+
+<BaseLayout title={category} current="categories">
+  <p class="muted"><a href={with_base('categories/')}>All categories</a></p>
+  <h1 class="page-title">{category}</h1>
+  <p class="lede">{posts.length} post{posts.length === 1 ? '' : 's'}</p>
+  <ul class="post-list">
+    {posts.map((entry) => <PostCard entry={entry} />)}
+  </ul>
+</BaseLayout>

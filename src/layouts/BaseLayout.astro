@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+import { site_config, with_base } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: string;
+}
+
+const {
+  title,
+  description = site_config.description,
+  current = 'home',
+} = Astro.props;
+
+const page_title = title ? `${title} · ${site_config.title}` : site_config.title;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const nav = [
+  { href: with_base(), label: 'Home', key: 'home' },
+  { href: with_base('posts/'), label: 'Posts', key: 'posts' },
+  { href: with_base('categories/'), label: 'Categories', key: 'categories' },
+  { href: with_base('about/'), label: 'About', key: 'about' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{page_title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site_config.author} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={with_base('favicon.svg')} type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={site_config.title} href={with_base('rss.xml')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <header class="site-header">
+      <div class="shell site-header-inner">
+        <a class="site-brand" href={with_base()}>
+          <span class="site-mark">{site_config.title}</span>
+          <span class="site-author">{site_config.author} / {site_config.github_username}</span>
+        </a>
+        <nav class="site-nav" aria-label="Primary">
+          {
+            nav.map((item) => (
+              <a href={item.href} aria-current={current === item.key ? 'page' : undefined}>
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
+    </header>
+    <main id="content" class="site-main">
+      <div class="shell">
+        <slot />
+      </div>
+    </main>
+    <footer class="site-footer">
+      <div class="shell site-footer-inner">
+        <strong>{site_config.title}</strong>
+        <span>{site_config.description}</span>
+        <span>
+          {site_config.author}
+          ·
+          <a href={`https://github.com/${site_config.github_username}`}>{site_config.github_username}</a>
+          ·
+          <a href={`mailto:${site_config.email}`}>{site_config.email}</a>
+          ·
+          <a href={with_base('rss.xml')}>RSS</a>
+        </span>
+      </div>
+    </footer>
+  </body>
+</html>

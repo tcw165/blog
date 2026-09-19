@@ -1,0 +1,25 @@
+---
+import { post_slug, type PostEntry } from '../lib/posts';
+import { category_slug, format_date, with_base } from '../lib/site';
+
+interface Props {
+  entry: PostEntry;
+}
+
+const { entry } = Astro.props;
+const href = with_base(`posts/${post_slug(entry)}/`);
+---
+
+<li class="post-card">
+  <p class="post-meta">
+    <time datetime={entry.data.pubDate.toISOString()}>{format_date(entry.data.pubDate)}</time>
+    {
+      entry.data.categories.map((category) => (
+        <a class="pill" href={with_base(`categories/${category_slug(category)}/`)}>
+          {category}
+        </a>
+      ))
+    }
+  </p>
+  <h2><a href={href}>{entry.data.title}</a></h2>
+</li>

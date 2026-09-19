@@ -1,0 +1,15 @@
+---
+import PostCard from '../../components/PostCard.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { get_posts } from '../../lib/posts';
+
+const posts = await get_posts();
+---
+
+<BaseLayout title="Posts" current="posts">
+  <h1 class="page-title">Posts</h1>
+  <p class="lede">{posts.length} articles, newest first.</p>
+  <ul class="post-list">
+    {posts.map((entry) => <PostCard entry={entry} />)}
+  </ul>
+</BaseLayout>

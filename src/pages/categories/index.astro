@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { get_categories } from '../../lib/posts';
+import { with_base } from '../../lib/site';
+
+const categories = await get_categories();
+---
+
+<BaseLayout title="Categories" current="categories">
+  <h1 class="page-title">Categories</h1>
+  <p class="lede">Algorithms, Android, Machine Learning, and Probability.</p>
+  <ul class="post-list">
+    {
+      categories.map((category) => (
+        <li class="post-card">
+          <h2>
+            <a href={with_base(`categories/${category.slug}/`)}>{category.name}</a>
+          </h2>
+          <p class="muted">{category.count} post{category.count === 1 ? '' : 's'}</p>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

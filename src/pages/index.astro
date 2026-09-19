@@ -1,0 +1,32 @@
+---
+import PostCard from '../components/PostCard.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { get_categories, get_posts } from '../lib/posts';
+import { site_config, with_base } from '../lib/site';
+
+const posts = await get_posts();
+const categories = await get_categories();
+---
+
+<BaseLayout current="home">
+  <section class="hero">
+    <h1>{site_config.title}</h1>
+    <p class="lede">{site_config.description}</p>
+    <p class="category-row">
+      {
+        categories.map((category) => (
+          <a class="pill" href={with_base(`categories/${category.slug}/`)}>
+            {category.name}
+            <span class="muted"> · {category.count}</span>
+          </a>
+        ))
+      }
+    </p>
+  </section>
+  <section>
+    <h2 class="page-title">Posts</h2>
+    <ul class="post-list">
+      {posts.map((entry) => <PostCard entry={entry} />)}
+    </ul>
+  </section>
+</BaseLayout>
