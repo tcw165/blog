@@ -1,0 +1,30 @@
+<script>
+  const diagrams = [
+    ...document.querySelectorAll<HTMLElement>('.post-body pre.mermaid'),
+  ];
+
+  if (diagrams.length > 0) {
+    const { default: mermaid } = await import('mermaid');
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'base',
+      securityLevel: 'strict',
+      fontFamily: 'IBM Plex Sans, Segoe UI, sans-serif',
+      themeVariables: {
+        background: '#fffdf8',
+        primaryColor: '#efe8d8',
+        primaryTextColor: '#1c1b16',
+        primaryBorderColor: '#d8d2c4',
+        lineColor: '#5f5c53',
+        secondaryColor: '#e4efe8',
+        tertiaryColor: '#f8f4ea',
+      },
+    });
+
+    await mermaid.run({
+      nodes: diagrams,
+      suppressErrors: true,
+    });
+  }
+</script>

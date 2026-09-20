@@ -33,6 +33,12 @@ So the inconsistency could happen in between READ and WRITE.
 
 The most happy result would be that the 5 threads execute in sequence, illustrated in the diagram below:
 
+```mermaid
+flowchart LR
+  t1[Thread 1] --> t2[Thread 2] --> t3[Thread 3] --> t4[Thread 4] --> t5[Thread 5]
+  t5 --> result["global = 25"]
+```
+
 ![](/images/2022-11-30-n-threads-modify-non-atomic-shared-variable/img-01.png)
 
 You could shuffle the order of threads and the result would be the same.
