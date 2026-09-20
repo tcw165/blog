@@ -394,13 +394,9 @@ pre,
 }
 
 .diagram-focus-toolbar {
-  display: none;
+  display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-}
-
-.diagram-focus-js .diagram-focus-toolbar {
-  display: flex;
 }
 
 .diagram-focus-toggle {
