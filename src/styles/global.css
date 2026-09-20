@@ -55,6 +55,18 @@ img {
   border-radius: 8px;
 }
 
+.post-body img:not(a img) {
+  cursor: zoom-in;
+}
+
+.medium-zoom-overlay {
+  z-index: 40;
+}
+
+.medium-zoom-image--opened {
+  z-index: 41;
+}
+
 code,
 pre,
 .site-mark {
