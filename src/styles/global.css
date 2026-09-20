@@ -202,6 +202,37 @@ pre,
   box-shadow: var(--shadow);
   padding: 1.15rem 1.2rem 1.2rem;
   margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.post-card-cover {
+  display: block;
+  margin: -1.15rem -1.2rem 0.85rem;
+}
+
+.post-card-cover img {
+  margin: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.post-cover {
+  margin: 0.9rem 0 1.4rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #1c1b16;
+}
+
+.post-cover img {
+  margin: 0;
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
 }
 
 .post-card h2 {
