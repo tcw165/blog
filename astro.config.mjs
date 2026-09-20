@@ -6,7 +6,7 @@ import remarkMath from 'remark-math';
 
 import { rewrite_image_paths } from './src/plugins/rewrite-image-paths.mjs';
 
-const site_base = '/boyw165.github.io/';
+const site_base = '/blog/';
 
 export default defineConfig({
   site: 'https://tcw165.github.io',

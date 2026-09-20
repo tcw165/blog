@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
   const site =
     context.site != null
       ? new URL(import.meta.env.BASE_URL, context.site).href
-      : 'https://tcw165.github.io/boyw165.github.io/';
+      : 'https://tcw165.github.io/blog/';
 
   return rss({
     title: site_config.title,
