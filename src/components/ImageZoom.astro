@@ -1,0 +1,15 @@
+<script>
+  import mediumZoom from 'medium-zoom/dist/pure';
+  import 'medium-zoom/dist/style.css';
+
+  const zoomable_images = [
+    ...document.querySelectorAll<HTMLImageElement>('.post-body img'),
+  ].filter((image) => image.closest('a') === null);
+
+  if (zoomable_images.length > 0) {
+    mediumZoom(zoomable_images, {
+      background: 'rgba(28, 27, 22, 0.86)',
+      margin: 24,
+    });
+  }
+</script>

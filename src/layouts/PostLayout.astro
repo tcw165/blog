@@ -1,6 +1,7 @@
 ---
 import 'katex/dist/katex.min.css';
 
+import ImageZoom from '../components/ImageZoom.astro';
 import { extract_headings, type PostEntry } from '../lib/posts';
 import { category_slug, format_date, with_base } from '../lib/site';
 import BaseLayout from './BaseLayout.astro';
@@ -51,6 +52,7 @@ const description =
     <div class="post-body">
       <slot />
     </div>
+    <ImageZoom />
     <p class="muted">
       <a href={with_base('posts/')}>All posts</a>
       ·
