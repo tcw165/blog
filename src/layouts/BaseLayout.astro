@@ -6,12 +6,14 @@ interface Props {
   title?: string;
   description?: string;
   current?: string;
+  og_image?: string;
 }
 
 const {
   title,
   description = site_config.description,
   current = 'home',
+  og_image,
 } = Astro.props;
 
 const page_title = title ? `${title} · ${site_config.title}` : site_config.title;
@@ -32,6 +34,17 @@ const nav = [
     <title>{page_title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site_config.author} />
+    <meta property="og:title" content={page_title} />
+    <meta property="og:description" content={description} />
+    {
+      og_image && (
+        <>
+          <meta property="og:image" content={og_image} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:image" content={og_image} />
+        </>
+      )
+    }
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={with_base('favicon.svg')} type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={site_config.title} href={with_base('rss.xml')} />

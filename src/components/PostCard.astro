@@ -8,9 +8,18 @@ interface Props {
 
 const { entry } = Astro.props;
 const href = with_base(`posts/${post_slug(entry)}/`);
+const cover = entry.data.cover;
+const cover_src = cover ? with_base(cover.src.replace(/^\//, '')) : undefined;
 ---
 
 <li class="post-card">
+  {
+    cover && cover_src && (
+      <a class="post-card-cover" href={href} tabindex="-1" aria-hidden="true">
+        <img src={cover_src} alt="" />
+      </a>
+    )
+  }
   <p class="post-meta">
     <time datetime={entry.data.pubDate.toISOString()}>{format_date(entry.data.pubDate)}</time>
     {
