@@ -4,6 +4,7 @@ import rehypeKatex from 'rehype-katex';
 import rehypeSlug from 'rehype-slug';
 import remarkMath from 'remark-math';
 
+import { remark_mermaid } from './src/plugins/remark-mermaid.mjs';
 import { rewrite_image_paths } from './src/plugins/rewrite-image-paths.mjs';
 
 // Repo is tcw165/blog, so GitHub project Pages is /blog/.
@@ -15,7 +16,11 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [sitemap()],
   markdown: {
-    remarkPlugins: [remarkMath, [rewrite_image_paths, { base: site_base }]],
+    remarkPlugins: [
+      remark_mermaid,
+      remarkMath,
+      [rewrite_image_paths, { base: site_base }],
+    ],
     rehypePlugins: [rehypeSlug, rehypeKatex],
     shikiConfig: {
       theme: 'github-dark',
