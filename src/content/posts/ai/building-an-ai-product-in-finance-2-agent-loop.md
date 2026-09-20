@@ -5,6 +5,9 @@ pubDate: 2026-09-20
 categories:
   - AI
 toc: true
+cover:
+  src: /images/2026-09-20-ai-product-in-finance-2-agent-loop/cover.jpg
+  alt: "Cartoon portal title card for the series Building an AI Product in Finance, Part 2: Agent Loop"
 ---
 
 [Part 1](/blog/posts/building-an-ai-product-in-finance-1-overview/) was the map. The worker owns the turn. The runner is the only box that talks to the model. This post is what actually runs inside that runner: the in-house agent loop, the prompt, and the context window.
