@@ -6,6 +6,7 @@ import remarkMath from 'remark-math';
 
 import { rewrite_image_paths } from './src/plugins/rewrite-image-paths.mjs';
 
+// Repo is tcw165/blog, so GitHub project Pages is /blog/.
 const site_base = '/blog/';
 
 export default defineConfig({
