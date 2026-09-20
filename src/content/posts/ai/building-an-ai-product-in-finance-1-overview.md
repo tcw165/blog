@@ -51,9 +51,9 @@ When that SSE ends, the server tells the client to **short-poll**. That is how s
 The Infrastructure
 ------------------
 
-![](/images/2026-09-19-ai-product-in-finance-1-overview/fig-01.png)
+![AI platform architecture, with the streaming path from the client through the gateway, message queue, and turn worker in focus.](/images/2026-09-19-ai-product-in-finance-1-overview/fig-01.png "focus:stream-queue")
 
-This is the map of the whole thing. I'm only going to walk the boxes at map level. The interesting guts get their own posts.
+This is the map of the whole thing. I put a spotlight on the live path — gateway, queue, turn worker — because the rest of the boxes get their own posts.
 
 On the user side, Android, iOS, and web talk to a **Gateway** with turn-based SSE plus short poll. The gateway does not run the agent. It accepts a turn, drops it on a **Message Queue**, and gives the client a `turn_id`. A **Turn Worker** pulls the job, writes the conversation, and drives an **Agent Loop**. The loop uses in-code skills and sub-agents, calls tools, reads a knowledge vector store, and talks to an LLM gateway that does the model routing.
 
