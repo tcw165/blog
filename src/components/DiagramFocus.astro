@@ -1,0 +1,38 @@
+---
+---
+
+<script>
+  function bind_diagram_focus() {
+    const figures = document.querySelectorAll<HTMLElement>('.diagram-focus');
+
+    for (const figure of figures) {
+      if (figure.dataset.bound === 'true') {
+        continue;
+      }
+
+      figure.dataset.bound = 'true';
+      figure.classList.add('diagram-focus-js');
+
+      const buttons = figure.querySelectorAll<HTMLButtonElement>(
+        '[data-focus-mode]',
+      );
+
+      for (const button of buttons) {
+        button.addEventListener('click', () => {
+          const focused = button.dataset.focusMode !== 'off';
+          figure.classList.toggle('is-focused', focused);
+
+          for (const peer of buttons) {
+            peer.setAttribute(
+              'aria-pressed',
+              peer === button ? 'true' : 'false',
+            );
+          }
+        });
+      }
+    }
+  }
+
+  bind_diagram_focus();
+  document.addEventListener('astro:page-load', bind_diagram_focus);
+</script>

@@ -1,6 +1,7 @@
 ---
 import 'katex/dist/katex.min.css';
 
+import DiagramFocus from '../components/DiagramFocus.astro';
 import ImageZoom from '../components/ImageZoom.astro';
 import Mermaid from '../components/Mermaid.astro';
 import { extract_headings, type PostEntry } from '../lib/posts';
@@ -53,6 +54,7 @@ const description =
     <div class="post-body">
       <slot />
     </div>
+    <DiagramFocus />
     <Mermaid />
     <ImageZoom />
     <p class="muted">

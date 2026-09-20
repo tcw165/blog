@@ -323,6 +323,141 @@ pre,
   padding-left: 1.2rem;
 }
 
+.diagram-focus {
+  margin: 1.25rem 0 1.55rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f7f3ea;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.diagram-focus-viewport {
+  overflow: hidden;
+  background: #fffdf8;
+}
+
+.diagram-focus-stage {
+  position: relative;
+  transition: transform 420ms ease;
+}
+
+.diagram-focus.is-focused .diagram-focus-stage {
+  transform: scale(var(--focus-scale, 1.28));
+  transform-origin: var(--focus-origin-x, 36%) var(--focus-origin-y, 38%);
+}
+
+.diagram-focus-stage img {
+  margin: 0;
+  width: 100%;
+  border-radius: 0;
+}
+
+.diagram-focus-spot {
+  position: absolute;
+  left: var(--focus-left);
+  top: var(--focus-top);
+  width: var(--focus-width);
+  height: var(--focus-height);
+  border-radius: 18px;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow:
+    0 0 0 999vmax rgba(28, 27, 22, 0.56),
+    0 0 0 2px rgba(15, 110, 98, 0.95),
+    0 0 28px 6px rgba(15, 110, 98, 0.3);
+  transition: opacity 280ms ease;
+}
+
+.diagram-focus.is-focused .diagram-focus-spot {
+  opacity: 1;
+  animation: diagram-focus-pulse 2.6s ease-in-out infinite;
+}
+
+.diagram-focus-bar {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.7rem 0.85rem 0.8rem;
+  border-top: 1px solid var(--line);
+  background: var(--bg-elevated);
+}
+
+.diagram-focus-caption {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.diagram-focus.is-focused [data-when='full'],
+.diagram-focus:not(.is-focused) [data-when='focused'] {
+  display: none;
+}
+
+.diagram-focus-toolbar {
+  display: none;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.diagram-focus-js .diagram-focus-toolbar {
+  display: flex;
+}
+
+.diagram-focus-toggle {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.78rem;
+  padding: 0.18rem 0.7rem;
+  cursor: pointer;
+}
+
+.diagram-focus-toggle:hover,
+.diagram-focus-toggle[aria-pressed='true'] {
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.diagram-focus-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@keyframes diagram-focus-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 999vmax rgba(28, 27, 22, 0.56),
+      0 0 0 2px rgba(15, 110, 98, 0.92),
+      0 0 22px 4px rgba(15, 110, 98, 0.22);
+  }
+
+  50% {
+    box-shadow:
+      0 0 0 999vmax rgba(28, 27, 22, 0.5),
+      0 0 0 2px rgba(15, 110, 98, 1),
+      0 0 34px 8px rgba(15, 110, 98, 0.36);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diagram-focus-stage,
+  .diagram-focus-spot {
+    transition: none;
+  }
+
+  .diagram-focus.is-focused .diagram-focus-stage {
+    transform: none;
+  }
+
+  .diagram-focus.is-focused .diagram-focus-spot {
+    animation: none;
+  }
+}
+
 .video-embed {
   position: relative;
   width: 100%;
