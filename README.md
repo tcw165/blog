@@ -4,7 +4,7 @@ Technical notes by **TC Wang** (`tcw165`). This repository is now an [Astro](htt
 
 Live project Pages URL (after Actions deploy is enabled):
 
-`https://tcw165.github.io/boyw165.github.io/`
+`https://tcw165.github.io/blog/`
 
 ## Local development
 
@@ -13,14 +13,14 @@ npm install
 npm run dev
 ```
 
-The GitHub Pages project base path is `/boyw165.github.io/`. Preview the production build the same way CI does:
+The GitHub Pages project base path is `/blog/`. Preview the production build the same way CI does:
 
 ```bash
 npm run build
 npm run preview
 ```
 
-Then open `http://localhost:4321/boyw165.github.io/`.
+Then open `http://localhost:4321/blog/`.
 
 ## Content
 
@@ -35,6 +35,6 @@ Then open `http://localhost:4321/boyw165.github.io/`.
 2. In the repository: **Settings → Pages**.
 3. Set **Source** to **GitHub Actions** (not “Deploy from a branch”).
 4. Confirm the `Deploy Astro site to GitHub Pages` workflow succeeds.
-5. Visit `https://tcw165.github.io/boyw165.github.io/`.
+5. Visit `https://tcw165.github.io/blog/`.
 
 The workflow builds every pull request (`npm ci`, `astro check`, `astro build`) and deploys only from `master`.
