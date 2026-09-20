@@ -8,13 +8,13 @@ import { visit } from 'unist-util-visit';
  */
 export const diagram_focus_presets = {
   'stream-queue': {
-    left: 1.5,
-    top: 21,
-    width: 68,
-    height: 39,
-    origin_x: 35,
-    origin_y: 39,
-    scale: 1.3,
+    left: 0.6,
+    top: 24,
+    width: 73,
+    height: 36,
+    origin_x: 37,
+    origin_y: 41,
+    scale: 1,
     label: 'Streaming & message queue',
     focused_caption:
       'Spotlight on the live path: client → gateway → queue → turn worker.',
