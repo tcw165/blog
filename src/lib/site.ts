@@ -1,7 +1,7 @@
 export const site_config = {
   title: 'c@d3, and shar3',
   description:
-    'A blog for sharing software infrastructure, algorithms, Machine Learning and fun technology.',
+    'A blog for sharing software infrastructure, algorithms, AI, Machine Learning and fun technology.',
   author: 'TC Wang',
   github_username: 'tcw165',
   github_repo: 'boyw165.github.io',
