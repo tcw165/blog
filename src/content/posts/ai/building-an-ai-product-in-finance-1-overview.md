@@ -5,6 +5,9 @@ pubDate: 2026-09-19
 categories:
   - AI
 toc: true
+cover:
+  src: /images/2026-09-19-ai-product-in-finance-1-overview/cover.jpg
+  alt: "Cartoon portal title card for the series Building an AI Product in Finance, Part 1: Overview"
 ---
 
 Early 2025, my team got tasked to build an AI product at a consumer brokerage. The job was pretty clear on paper: personalized information retrieval, and then personalized actions inside the app. You ask about your account, the market, a tax lot, a comparison of your portfolio and the market — and the assistant should answer with *your* context, not a generic FAQ. If you want it to do something, it should be able to do that too.
