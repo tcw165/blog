@@ -63,6 +63,21 @@ On the engineer side there is a second path that I care about a lot. A daily eva
 
 What I want you to notice on the map is just this: the client never talks to the agent loop directly. It talks to the gateway. The gateway talks to a queue. The worker owns the turn. That split is what makes streaming and walking away the same design instead of two designs.
 
+The platform map is the boxes. This next figure is how I actually wrote the service.
+
+![Overall service architecture: endpoints, service, and a separate agent runner on dependency injection, with a declarative observability layer and an LLM gateway.](/images/2026-09-19-ai-product-in-finance-1-overview/fig-02.png)
+
+I built the whole service on **dependency injection**. Endpoint, Service, Agent Runner — they do not construct their own clients. The App and the clients live in DI. Swap a store, a tool, a model client, and the rest of the stack does not notice.
+
+The **Agent Runner** is its own box on purpose. The endpoint does not run the agent. The service does not run the agent. The runner is the only thing that talks to the LLM gateway. That is how a turn stays stoppable, how you test without a model, and how agent guts do not leak into HTTP.
+
+**Observability** is not a sidecar I bolted on later. It is declarative observation, reinforced on the path. You declare what you want to see on an endpoint — TTFT, TTFB (time to first *block*, because we stream paragraphs, not tokens), tool calls — and the instrumentation sits on the request. You do not sprinkle `start_timer()` inside the runner.
+
+The architecture is two ideas:
+
+- **Separation of concern**, via dependency injection. Who owns HTTP, who owns the turn, who owns the model call.
+- **Declarative programming.** Especially observation. The metrics are a declaration, not a pile of timers.
+
 ---
 
 Hybrid Streaming
