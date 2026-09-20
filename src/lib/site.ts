@@ -4,7 +4,7 @@ export const site_config = {
     'A blog for sharing software infrastructure, algorithms, AI, Machine Learning and fun technology.',
   author: 'TC Wang',
   github_username: 'tcw165',
-  github_repo: 'boyw165.github.io',
+  github_repo: 'blog',
   email: 'boyw165@gmail.com',
   linkedin_url: 'https://www.linkedin.com/in/boyw165/',
 };
