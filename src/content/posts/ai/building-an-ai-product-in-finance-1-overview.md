@@ -158,6 +158,4 @@ Next
 
 The map has a lot of other boxes I am proud of, and I am going to leave them for later.
 
-Next topic is the in-house agent loop, the prompt engineering, and how we manage context. After that, the daily eval that tells us the harness health every morning. Then the eval sandbox — synthetic fixtures, no PI / PII stored, patterns learned from production sampling.
-
-link (coming soon)
+Next is [Part 2](/blog/posts/building-an-ai-product-in-finance-2-agent-loop/) — the in-house agent loop, the prompt engineering, and how we manage context. After that, the daily eval that tells us the harness health every morning. Then the eval sandbox — synthetic fixtures, no PI / PII stored, patterns learned from production sampling.
