@@ -76,6 +76,10 @@ The **Agent Runner** is its own box on purpose. The endpoint does not run the ag
 
 **Observability** is not a sidecar I bolted on later. It is declarative observation, reinforced on the path. You declare what you want to see on an endpoint — TTFT, TTFB (time to first *block*, because we stream paragraphs, not tokens), tool calls — and the instrumentation sits on the request. You do not sprinkle `start_timer()` inside the runner.
 
+![Production TTFB over a quiet day: first block around eight seconds at P50 and fifteen seconds at P90.](/images/2026-09-19-ai-product-in-finance-1-overview/fig-03.png)
+
+A quiet production day is **P50 ~8s** and **P90 ~15s** to that first block. The user is already reading. The rest of the turn is still running.
+
 The architecture is two ideas:
 
 - **Separation of concern**, via dependency injection. Who owns HTTP, who owns the turn, who owns the model call.
