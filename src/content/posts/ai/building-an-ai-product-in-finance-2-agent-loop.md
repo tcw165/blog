@@ -136,6 +136,4 @@ Next
 
 The loop is only as honest as the eval that watches it.
 
-Next is the daily eval — the job that tells us harness health every morning. Domain and case fixtures in the repo. Composable scorers. A CLI for the change you are about to land. After that, the sandbox: synthetic fixtures, no PI / PII stored, patterns learned from production sampling.
-
-link (coming soon)
+Next is [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) — the daily eval that tells us harness health every morning. Domain and case fixtures in the repo. Composable scorers. A CLI for the change you are about to land. After that, the sandbox: synthetic fixtures, no PI / PII stored, patterns learned from production sampling.
