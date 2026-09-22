@@ -184,4 +184,4 @@ Next
 
 The gym is only as honest as the fixtures you are willing to put in git.
 
-How we write those fixtures without storing PI / PII — personas, scenarios, production sampling that proposes a PR — is the next post.
+Next is [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/) — the eval sandbox. Personas and scenarios in git. A synthesizer that mocks the tools. Production sampling that proposes a PR. No PI / PII stored.
