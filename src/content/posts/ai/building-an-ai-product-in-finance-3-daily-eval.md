@@ -75,6 +75,32 @@ That schema is also how I designed the rest of the pipe: an **internal eval endp
 
 ---
 
+In the repo
+-----------
+
+A case is a file. The taxonomy is the folder. An engineer lands a fixture the same way they land a skill: a PR.
+
+```
+eval/fixtures/cases/
+├── support/
+│   ├── red_team.yaml
+│   ├── brokerage.yaml
+│   ├── crypto.yaml
+│   └── retirement.yaml
+├── advisor/
+│   ├── portfolio_rebalancing.yaml
+│   ├── concentration.yaml
+│   └── diversification.yaml
+├── tax_lots.yaml
+└── preamble.yaml
+```
+
+`support/` and `advisor/` are domains. `tax_lots.yaml` and `preamble.yaml` sit at the root because they cut across domains — a lot question shows up in support *and* advisor. The cron does not care. It reads the tree.
+
+You do not open a ticket for the eval team. You open a PR. The CLI runs the file you just added. Tomorrow morning the dashboard has a new case, or it does not, and that is the point.
+
+---
+
 Firm accounts, and a frozen clock
 ---------------------------------
 
