@@ -120,7 +120,17 @@ Twice a day, every day. Cron enqueues. The internal endpoint is the only door, a
 
 The CLI is the same pipe, pointed at the change you have not landed yet. If you are about to touch a skill, you run the cases that skill owns. You do not wait for tomorrow morning to learn you broke funding-deficiency.
 
-The dashboard is just two views of the same scores: the aggregate, and the one bad case. I can see which scorer complained — compliance, tools, structure, grounding — without rereading a transcript. I am not going to paste the screens. The point is the mechanism: a morning signal, at case level, tied to a commit.
+Then the dashboard. Two views of the same scores.
+
+The first is the aggregate. Pass / fail over the last day. Case counts by domain — the taxonomy, live. A quiet morning is a flat pass line and a wall of tiles. You also see whether the worker itself is sick: steps in the loop, a lonely error spike.
+
+![Morning aggregate: pass/fail over the day, case counts by domain, steps in the loop, and worker errors.](/images/2026-09-21-ai-product-in-finance-3-daily-eval/fig-03.png)
+
+The second is the one bad case. Four scorer panels — compliance, tools, response structure, activated skill. When a panel dips, the list under it is the fixtures that failed that scorer. I do not reread four hundred transcripts. I open the case.
+
+![Bad cases by scorer: four pass-rate panels and the fixtures that failed them.](/images/2026-09-21-ai-product-in-finance-3-daily-eval/fig-04.png)
+
+The point is the mechanism: a morning signal, at case level, tied to a commit.
 
 ---
 
@@ -131,6 +141,7 @@ The dashboard is just two views of the same scores: the aggregate, and the one b
 - Agent-as-judge plus code scorers cover "did it call the tool" and "is this even allowed to say that."
 - Frozen time keeps a finance case still. You debug the harness, not the tape.
 - The CLI and the cron are the same job. Local is not a different product.
+- The dashboard is two views of the same scores. Aggregate, then the case.
 
 #### Drawback
 
