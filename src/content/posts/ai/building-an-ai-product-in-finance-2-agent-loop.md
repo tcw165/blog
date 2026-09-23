@@ -38,13 +38,14 @@ The loop stays small. The window is selective about what it includes.
 Prompt
 ------
 
-Three rules:
+Four rules:
 
 - **Less is better.** The core sys-prompt stays under four thousand words. If a rule needs a page, it is a skill, not part of the sys-prompt.
 - **Do not few-shot concrete examples.** Prompt *patterns of behavior*. An example of one ticker and one tax lot gets copied. A pattern — when the user asks about a lot, fetch the lot, then answer with the lot — still applies to the next ticker.
 - **Treat the model as a capable librarian.** Do not teach it what a book is. Specify the behavior: when to look, when to ask, when to stop.
+- **Structure the tool shape.** A tool is a form. Name, description, input, output. The model fills fields it can see. It does not invent a blob and hope the runner parses it. If `transfers` returns `{kind, status, initiated}`, that contract lives on the tool, not in a paragraph of the sys-prompt.
 
-The sys-prompt is the constitution. Skills are the procedures. Sub-agents are delegated to one part of the work. None of that belongs in HTTP.
+The sys-prompt is the constitution. Skills are the procedures. The tool shape is the contract. Sub-agents are delegated to one part of the work. None of that belongs in HTTP.
 
 ---
 
@@ -58,7 +59,7 @@ This is how a turn is packed. Top to bottom, static then dynamic.
 **Static** is the prefix the cache can actually hit:
 
 - Core sys-prompt
-- Tool schemas
+- Tool schemas — the shapes, cached because they do not change mid-turn
 - Session context — entry, environment, created timestamp, the facts that do not change mid-turn
 - Pre-warm skills
 
