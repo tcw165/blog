@@ -106,23 +106,30 @@ A stop request becomes a `cancel_turn` call on the chat layer. Chat cancels the 
 
 A reconnect looks like this:
 
-```
-Client          Gateway           Queue            Turn Worker         Turn DB
-  |                |                |                   |                 |
-  |-- POST /turns->|                |                   |                 |
-  |                |-- enqueue ---->|                   |                 |
-  |<- turn_id -----|                |                   |                 |
-  |                |                |<-- pull ----------|                 |
-  |-- open SSE c=0>|                |                   |                 |
-  |                |                |                   |-- append ev 1-->|
-  |<- ev 1 ---------|<---------------- live ------------|                 |
-  |                |                |                   |-- append ev 2-->|
-  |<- ev 2 ---------|<---------------- live ------------|                 |
-  |  (full response in, SSE closes) |                   |-- append ev 3-->|
-  |  (server: switch to poll)       |                   |                 |
-  |-- poll c=2 --->|                |                   |                 |
-  |                |------------------------------ read since 2 --------->|
-  |<- ev 3 c=3 ----|                |                   |                 |
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Gateway
+    participant Queue
+    participant Worker as Turn Worker
+    participant DB as Turn DB
+    Client->>Gateway: POST /turns
+    Gateway->>Queue: enqueue
+    Gateway->>Client: turn_id
+    Worker->>Queue: pull
+    Client->>Gateway: open SSE c=0
+    Worker->>DB: append ev 1
+    Worker->>Gateway: live
+    Gateway->>Client: ev 1
+    Worker->>DB: append ev 2
+    Worker->>Gateway: live
+    Gateway->>Client: ev 2
+    Note over Client,Gateway: full response in, SSE closes
+    Worker->>DB: append ev 3
+    Note over Client,Gateway: server: switch to poll
+    Client->>Gateway: poll c=2
+    Gateway->>DB: read since 2
+    Gateway->>Client: ev 3 c=3
 ```
 
 The events themselves stay boring on purpose. Something like:
