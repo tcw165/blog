@@ -100,6 +100,10 @@ The **Turn DB** is the CD. Every paragraph, tool start, tool result, and final a
 
 And because a walk-away turn can still be the wrong turn, compute has to be **stoppable**. Cancel is just another write on the same log. The worker sees it and stops.
 
+A stop request becomes a `cancel_turn` call on the chat layer. Chat cancels the stream, the stream calls `result.cancel` on the SDK, and the blocked `stream_events` unblocks.
+
+![Cancel sequence: Stop calls cancel_turn on Chat; Chat cancels Stream; Stream calls result.cancel on Sdk; Sdk unblocks stream_events back to Stream.](/images/2026-09-19-ai-product-in-finance-1-overview/fig-04.png)
+
 A reconnect looks like this:
 
 ```
