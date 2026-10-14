@@ -63,38 +63,11 @@ The long version is that loop with the runners drawn.
 
 ![Eval platform. Online: daily eval and a weekly learner over traces run single-turn and multi-turn, write reports, update a dashboard, and an optimizer posts fixture changes as a PR stack. Offline: CI and an eval agent, or an engineer, run the REPL and a reporter posts to Slack. A case is history, persona, and scenario. The PR comes back as feedback with engineers in the loop.](/images/2026-10-14-ai-product-in-finance-5-close-loop/fig-03.png)
 
-One dashed box in the middle. Two runners inside it. Single-turn and multi-turn on top. REPL underneath. Both are Bazel runnables. Both read the fixtures.
+Online starts from a daily eval and a weekly learner over production traces.
 
-Online is the top band. Traces sit under a weekly learner. Daily eval and that learner both enter the single-turn and multi-turn runner. The runner writes online reports. One arrow goes up to the dashboard. Those are still the morning views from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/). One arrow goes to an optimizer agent, which posts fixture changes as a PR stack. The long way home is labeled feedback, with engineers in the loop, back into the fixtures. That is the closed loop. [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/)'s sampler never wrote a customer into git. This is that door on a schedule. The diff can be a case, a scorer, or the world the case runs in. A person still lands it.
+Daily, the single-turn and multi-turn runs write online reports and publish them to the dashboards from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/).
 
-Offline is the lower band. CI and an eval agent enter the REPL. So can an engineer, a PM, or anyone else. The REPL writes offline reports. A reporter agent posts those to Slack.
-
-Under both, the fixtures. A case is the folder on top. History, persona, and scenario sit under it and point up into the case. The case points up into the platform.
-
-```mermaid
-flowchart TB
-  traces[Traces] --> weekly[Weekly Learner]
-  daily[Daily Eval] --> single["Single-turn / multi-turn eval"]
-  weekly --> single
-  single --> onlineReports[Online Eval Reports]
-  onlineReports --> dashboard[Dashboard]
-  onlineReports --> optimizer[Optimizer agent]
-  optimizer -->|"post fixture changes"| pr["PR stack"]
-  cicd["CI/CD"] --> repl[REPL eval]
-  evalAgent[Eval agent] --> repl
-  people["Engineers / PMs / Anyone"] --> repl
-  repl --> offlineReports[Offline Eval Reports]
-  offlineReports --> reporter[Reporter agent]
-  reporter -->|"post reports"| slack[Slack]
-  history[History] --> caseNode[Case]
-  persona[Persona] --> caseNode
-  scenario[Scenario] --> caseNode
-  caseNode --> single
-  caseNode --> repl
-  pr -->|"feedback, engineers in the loop"| caseNode
-```
-
-The second picture is the map. The boxes are the same map.
+Weekly, an optimizer agent turns a miss into a fixture change and opens a PR stack. [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/)'s sampler never wrote a customer into git. This is that door on a schedule. The diff can be a case, a scorer, or the world the case runs in. A person still lands it.
 
 ---
 
