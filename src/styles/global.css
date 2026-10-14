@@ -284,7 +284,10 @@ pre,
 }
 
 .article table {
+  display: block;
   width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
   border-collapse: collapse;
   margin: 1.25rem 0;
   font-size: 0.95rem;
@@ -295,6 +298,49 @@ pre,
   border: 1px solid var(--line);
   padding: 0.45rem 0.6rem;
   text-align: left;
+  vertical-align: top;
+}
+
+.article .table-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 1.25rem 0;
+}
+
+.article .table-scroll table {
+  display: table;
+  width: max-content;
+  min-width: 100%;
+  max-width: none;
+  margin: 0;
+  overflow: visible;
+}
+
+.article .table-scroll th:nth-child(2),
+.article .table-scroll td:nth-child(2) {
+  min-width: 22rem;
+}
+
+.article .table-scroll th:nth-child(4),
+.article .table-scroll td:nth-child(4) {
+  min-width: 16rem;
+}
+
+.article td p {
+  margin: 0.15rem 0 0.35rem;
+}
+
+.article td ul {
+  margin: 0.1rem 0 0.7rem;
+  padding-left: 1.15rem;
+}
+
+.article td li {
+  margin: 0.12rem 0;
+}
+
+.article td ul ul {
+  margin: 0.15rem 0 0.2rem;
 }
 
 .article pre {
