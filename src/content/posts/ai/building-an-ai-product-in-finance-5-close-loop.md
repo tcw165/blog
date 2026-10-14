@@ -174,6 +174,7 @@ The core is a guardrail check. Small. Deterministic. Fast to diagnose. Each laye
 <li>Synthetic data from persona and scenario</li>
 <li>Internal QA knowledge bank</li>
 </ul>
+<p>The middle and the outer layer both start to need a lot of domain knowledge.</p>
 </td>
 </tr>
 <tr>
@@ -197,6 +198,7 @@ The core is a guardrail check. Small. Deterministic. Fast to diagnose. Each laye
 <ul>
 <li>Product opinion over compliance, styling, and so on</li>
 </ul>
+<p>A lot of domain knowledge here too.</p>
 </td>
 </tr>
 </tbody>
