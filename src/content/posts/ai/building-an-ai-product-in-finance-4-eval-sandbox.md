@@ -215,4 +215,4 @@ Next
 
 That is the four-post map I set out to write. Transport. Loop. Gym. Sandbox.
 
-The thing I would write next, if this series grows a fifth, is the sampler itself — how a production pattern becomes a fixture PR without a customer ever landing in git.
+Next is [Part 5](/blog/posts/building-an-ai-product-in-finance-5-close-loop/) — close-loop automation. The eval onion. Offline when the change is in front of you, daily on sampled traces. A weekly agent that turns a miss into a fixture PR.
