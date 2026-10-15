@@ -180,8 +180,8 @@ Two ways to run it.
 
 ---
 
-The blocks
-----------
+Shared Building Blocks
+-----------------------
 
 A case points at one history, one persona, one scenario. The product selects the suite. Offline, the tree looks like this. Persona and scenario are the fixtures Part 4 already defined. History is the block that was missing. The parent is `conservative_parent`, same file as the sandbox.
 
