@@ -72,6 +72,8 @@ The core is a guardrail check. Small. Deterministic. Fast to diagnose. Each laye
 
 ![Eval onion: core is safety and harness health, middle is context and tools, outer is response and multi-turn. Randomness grows outward.](/images/2026-10-14-ai-product-in-finance-5-close-loop/fig-02.png)
 
+Here is my framework.
+
 <div class="table-scroll">
 <table>
 <thead>
