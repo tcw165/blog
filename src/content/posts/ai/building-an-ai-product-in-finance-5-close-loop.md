@@ -170,9 +170,6 @@ The core is a guardrail check. Small. Deterministic. Fast to diagnose. Each laye
 </table>
 </div>
 
-
-TTFT and TTFB are the same clocks as [Part 1](/blog/posts/building-an-ai-product-in-finance-1-overview/). First token. First block. The scorers that grade an answer — compliance, tools, structure, fact grounding — are still the ones from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/). The onion is how they stack. The core does not wait on the outer judge.
-
 Two ways to run it.
 
 **Offline.** Fast iteration. The only dependency is LLM access, no matter how many upstream services hide behind function tools or MCP. Part 4 is why those calls still resolve. You mock the tool. You do not stand up the bank.
