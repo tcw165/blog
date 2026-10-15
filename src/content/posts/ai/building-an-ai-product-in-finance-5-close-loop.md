@@ -276,27 +276,6 @@ The CLI is the offline run. The daily job is the online cron. The weekly agent p
 
 ---
 
-#### Good
-
-- One suite. Offline while the change is in front of me. Daily once it is in production.
-- The core stays small. A guardrail miss or a fatter prefix does not wait on an outer judge.
-- Harness health is visible before the answer is graded. Tokens, cache, time to first block, steps, how many tools are mounted.
-- Persona, scenario, and history compose. Part 4 split the first two. A case names all three.
-- Model selection is the same fixtures, with cost and latency beside quality.
-- The weekly PR is how the garden grows. An agent proposes. A human lands it. No customer record in the diff.
-- Engineers add cases and scorers themselves. The new harness work gets an early signal, not a vibe in one chat.
-
-#### Drawback
-
-- The outer layer is slow to diagnose. A sentiment trajectory can be a bad day or a bad sentence. You will not know which from the panel.
-- More randomness outward means more signals. You can drown in them and stop reading the core.
-- The tester agent is another agent. A loose policy and it wanders off the plot. You grade the tester, not the harness.
-- Online sampling only closes if someone reads the weekly stack. A quiet PR is how the loop becomes a log.
-- A red-team set of 100 is only as mean as the last case somebody added. The core can pass a museum.
-- Facts in the scenario are a contract. Miss one number and the mocked backend and the judge disagree. You debug the fixture.
-
----
-
 Next
 ----
 
