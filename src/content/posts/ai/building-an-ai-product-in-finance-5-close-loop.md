@@ -200,16 +200,15 @@ eval/offline/fixtures
     └── pending_ach_deposit.yaml
 ```
 
-**Case.** The question under test. `query` is the user turn. History, persona, and scenario are names, not copies. Product picks which suite this file belongs to. Scorers still compose per case, the same way as the gym. I am not going to paste that schema again.
+**Case.** The question under test. `query` is the user turn. History, the persona preset, and the scenario are names, not copies. Tags are a list. Scorers still compose per case, the same way as the gym. I am not going to paste that schema again.
 
 ```yaml
-case:
-  id: experimental_one_shot
-  product: product_1
-  history: talk_to_agent
-  persona: conservative_parent
-  scenario: pending_ach_deposit
+- id: experimental_one_shot
   query: Did the deposit post?
+  history: talk_to_agent
+  persona_preset: conservative_parent
+  scenario: pending_ach_deposit
+  tags: [deposit]
 ```
 
 **History.** Turns already on the thread. Role and content. Not a tool dump — that cut is [Part 2](/blog/posts/building-an-ai-product-in-finance-2-agent-loop/). The file is the shelf the tester starts from.
