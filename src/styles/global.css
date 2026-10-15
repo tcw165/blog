@@ -276,6 +276,10 @@ pre,
   font-size: 1.75rem;
 }
 
+.post-body .section-body {
+  padding-left: 1.15rem;
+}
+
 .article hr {
   border: 0;
   border-top: 1px solid var(--line);
