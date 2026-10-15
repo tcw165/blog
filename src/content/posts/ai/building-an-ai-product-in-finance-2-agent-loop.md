@@ -38,13 +38,14 @@ We kept the loop small, and we got picky about what goes in the window.
 Prompt
 ------
 
-Three things I actually believe:
+Four things I actually believe:
 
 - **Less is better.** The core sys-prompt stays under four thousand words. If a rule needs a page, it is a skill, not a sermon.
 - **Do not few-shot concrete examples.** Prompt *patterns of behavior*. An example of "this ticker, this tax lot" becomes a ritual. A pattern of "when the user asks about a lot, fetch the lot, then answer with the lot" survives the next ticker.
 - **Treat the model as an extremely smart librarian.** You do not teach a librarian what a book is. You steer the behavior you want to unearth: when to look, when to ask, when to stop.
+- **Structure the tool shape.** A tool is a form, not a speech. Name, description, input, output. The model fills fields it can see. It does not invent a blob and hope the runner parses it. If `transfers` returns `{kind, status, initiated}`, that contract lives on the tool, not in a paragraph of sys-prompt.
 
-The sys-prompt is the constitution. Skills are the procedures. Sub-agents are people you send to a section of the stacks. None of that belongs in HTTP.
+The sys-prompt is the constitution. Skills are the procedures. Tools are the catalog cards. Sub-agents are people you send to a section of the stacks. None of that belongs in HTTP.
 
 ---
 
@@ -58,7 +59,7 @@ This is how a turn is packed. Top to bottom, static then dynamic.
 **Static** is the prefix the cache can actually hit:
 
 - Core sys-prompt
-- Tool schemas
+- Tool schemas — the shapes, cached because they do not change mid-turn
 - Session context — entry, environment, created timestamp, the boring facts that do not change mid-turn
 - Pre-warm skills
 
@@ -117,6 +118,7 @@ That is how you keep the static prefix stable while the chat gets long. The cons
 #### Good
 
 - The prefix is boring, so the input cache actually hits. P50 92% is the receipt.
+- Structured tool shapes keep the catalog boring. The model fills a form. The prompt stays short.
 - Skills and sub-agents live in code. A PM can land a workflow skill without touching the runner.
 - The workflow plan is a latch on a DAG, not a second orchestrator. Determinism and hallucination get to share a turn.
 - The reminder is a small knob for parallel tool calls. You do not spend two thousand words of sys-prompt on "please call tools together."
@@ -125,6 +127,7 @@ That is how you keep the static prefix stable while the chat gets long. The cons
 #### Drawback
 
 - You own the packing. Get the static/dynamic cut wrong and the cache falls over, and you will not notice until the bill does.
+- A wrong tool shape is a lie the model will honor. You will debug the schema, not the thought.
 - Asymmetric history means last week's tool payload is invisible unless you promoted it. That is a feature until someone expected the raw JSON to still be there.
 - A workflow plan can become a second product. Keep it a latch. The moment it starts running the company, you have two loops.
 - An in-house loop is more code than wrapping a vendor. You pay that every time the model API grows a new idea.
