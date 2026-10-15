@@ -176,7 +176,7 @@ Two ways to run it.
 
 **Offline.** Fast iteration. The only dependency is LLM access, no matter how many upstream services hide behind function tools or MCP.
 
-**Online.** Daily. Sample production traces. Loop a human into QA. The weekly PR is that loop. If nobody reads it, you have a suggestion box.
+**Online.** Daily. Sample production traces. Loop a human into QA.
 
 ---
 
