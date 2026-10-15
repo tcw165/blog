@@ -276,6 +276,26 @@ pre,
   font-size: 1.75rem;
 }
 
+.post-body section[data-depth='2'] {
+  margin-left: 1.75rem;
+}
+
+.post-body section[data-depth='3'] {
+  margin-left: 3.5rem;
+}
+
+.post-body section[data-depth='4'] {
+  margin-left: 5.25rem;
+}
+
+.post-body section[data-depth='5'] {
+  margin-left: 7rem;
+}
+
+.post-body section[data-depth='6'] {
+  margin-left: 8.75rem;
+}
+
 .post-body .section-body {
   padding-left: 1.15rem;
 }

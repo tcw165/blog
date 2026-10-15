@@ -1,7 +1,7 @@
 /**
  * Group each heading with the content that follows it, until the next
- * heading of the same or higher rank. The heading stays at its level.
- * Its body, including child sections, sits in `.section-body`.
+ * heading of the same or higher rank. Sections stay siblings so a heading
+ * can be indented by its own level. Its body sits one step further in.
  */
 export function rehype_sections() {
   return (tree) => {
@@ -42,10 +42,10 @@ function wrap_sections(nodes) {
     const section = {
       type: 'element',
       tagName: 'section',
-      properties: {},
+      properties: { 'data-depth': String(rank) },
       children: [node, body],
     };
-    append(section);
+    root.push(section);
     stack.push({ rank, body });
   }
 
