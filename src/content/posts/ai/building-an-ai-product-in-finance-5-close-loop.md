@@ -174,7 +174,7 @@ Here is my framework.
 
 Two ways to run it.
 
-**Offline.** Fast iteration. The only dependency is LLM access, no matter how many upstream services hide behind function tools or MCP. Part 4 is why those calls still resolve. You mock the tool. You do not stand up the bank.
+**Offline.** Fast iteration. The only dependency is LLM access, no matter how many upstream services hide behind function tools or MCP.
 
 **Online.** Daily. Sample production traces. Loop a human into QA. The weekly PR is that loop. If nobody reads it, you have a suggestion box.
 
