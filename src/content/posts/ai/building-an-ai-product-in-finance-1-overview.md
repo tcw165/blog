@@ -154,23 +154,6 @@ So what if the user never comes back? The worker still finishes, or it hits a de
 
 ---
 
-#### Good
-
-- Resume is a cursor, not a second model call.
-- The live socket is the length of one answer, not a held-open radio for the whole session.
-- Paragraphs stay whole on the wire. Legal and compliance can read what the user read.
-- After the turn, short poll picks up the slow stuff without keeping SSE warm.
-- Cancel is a first-class event. Stoppable compute is not a special case glued on later.
-
-#### Drawback
-
-- You now have two read paths, poll and SSE, and they must agree on the same cursor. If they drift, the UI double-prints or skips.
-- The Turn DB is on the hot path. If append is slow, the stream feels slow even when the model is fine.
-- Short poll still costs you when nothing happened. You have to pick an interval that does not melt the gateway and does not feel dead.
-- Exactly-once delivery is a lie. The client has to treat `cursor` as idempotent.
-
----
-
 Next
 ----
 

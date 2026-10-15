@@ -160,25 +160,6 @@ The point is the mechanism: a morning signal, at case level, tied to a commit.
 
 ---
 
-#### Good
-
-- Goodwill changes stop being invisible. You know the day and the commit.
-- Cases and scorers live in the repo. An engineer can add a domain without asking the runner for a new feature.
-- Agent-as-judge plus code scorers cover "did it call the tool" and "is this even allowed to say that."
-- Frozen time keeps a finance case still. You debug the harness, not the tape.
-- The CLI and the cron are the same job. Local is not a different product.
-- The dashboard is two views of the same scores. Aggregate, then the case.
-
-#### Drawback
-
-- Four hundred cases is a garden. If nobody weeds it, you are measuring a museum.
-- Agent-as-judge is still a judge with opinions. Web search helps. It also hallucinates with better citations. You have to watch the watchers.
-- Firm accounts with real money are operational load. Someone has to keep them funded and not-quite-real.
-- Frozen time is a lie you must keep consistent across market data, user data, and the clock. Drift one of them and the case is fiction.
-- A twice-a-day job can become the only time anyone looks. The CLI only helps if people run it.
-
----
-
 Next
 ----
 
