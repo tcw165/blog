@@ -12,23 +12,23 @@ cover:
 
 [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/) was the sandbox. This post is the loop that closes on it.
 
-The gym in [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) already runs in the morning. The sandbox already lets me run the same cases on a laptop. What I wanted next was one platform, and a way for a miss to become a fixture without me retyping the YAML.
+The gym in [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) already runs each morning. The sandbox already runs the same cases on a laptop. The missing piece was one platform, and a path from a miss to a fixture that does not require retyping the YAML.
 
 ---
 
 Story — a passing case
 ----------------------
 
-A case can pass and the harness can still be sick.
+A case can pass and the harness can still be degraded.
 
-Someone lands a prompt tweak. Someone adds a tool. I try one chat. The answer looks fine. Tomorrow morning the pass line is flat. A week later the first block is late, the prefix is fat, and the input cache is worse. Pass / fail never said that. It graded the answer. It did not grade the machine that produced it.
+A prompt is edited. A tool is added. I try one chat. The answer looks fine. The next morning the pass line is flat. A week later the first block is late, the prefix has grown, and the input cache is worse. Pass / fail did not report that. It graded the answer. It did not grade the machine that produced it.
 
-We quickly tried the usual answers:
+We tried the usual answers:
 
-- **Only the morning pass / fail.** Honest about cases. Blind to a fatter prompt, a longer loop, a tool you did not mean to mount.
-- **Only an outer judge on every change.** You debug tone. The bug was token size.
-- **Only offline.** You iterate fast. You never see drift on live traces.
-- **Only online.** Production teaches you the bug the laptop could have caught.
+- **Only the morning pass / fail.** Honest about cases. Blind to a larger prompt, a longer loop, a tool mounted by mistake.
+- **Only an outer judge on every change.** The review focuses on tone. The defect was token size.
+- **Only offline.** Iteration is fast. Drift on live traces is never observed.
+- **Only online.** Production surfaces the defect the laptop could have caught.
 - **A human rereads sampled traces.** That is QA. It is not a loop until the miss becomes a fixture in git.
 
 We kept one suite. We run it two ways. The inner layer watches the harness. The outer layer watches the answer.
@@ -38,13 +38,13 @@ We kept one suite. We run it two ways. The inner layer watches the harness. The 
 Three verticals
 ---------------
 
-Eval-driven development helps any agentic product in three places. I keep them separate so a number from one does not pretend to answer another.
+Eval-driven development helps any agentic product in three places. I keep them separate so a number from one does not answer a question from another.
 
 - **Release readiness.** Offline, before a release. An eval run produces a quality report. That report is how I decide the harness is ready to ship.
 - **Production monitoring.** Online, continuous. The same suites on sampled live traces. Drift, a regression, an incident — within hours, not after a ticket.
-- **Model selection.** The same suites, the same fixtures, candidate models side by side. Quality sits next to cost and latency. I do not pick a model from a demo.
+- **Model selection.** The same suites, the same fixtures, candidate models side by side. Quality sits next to cost and latency. I do not select a model from a demo.
 
-None of that is a new runner. It is the same cases, pointed at a different schedule.
+None of that is a new runner. It is the same cases, on a different schedule.
 
 ---
 
@@ -59,7 +59,7 @@ Online starts from a daily eval and a weekly learner over production traces.
 
 Daily, single-turn and multi-turn runs write online reports and publish them to the production dashboards from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/).
 
-Weekly, an optimizer agent turns a miss into a fixture change and opens a PR stack. [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/)'s sampler never wrote a customer into git. This is that door on a schedule. The diff can be a case, a scorer, or the world the case runs in. A person still lands it.
+Weekly, an optimizer agent turns a miss into a fixture change and opens a PR stack. [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/)'s sampler never wrote a customer into git. That constraint now runs on a schedule. The diff can be a case, a scorer, or the environment the case runs in. A person still merges it.
 
 ---
 
@@ -68,7 +68,7 @@ The onion
 
 The eval stack is an onion.
 
-The core is a guardrail check. Small. Deterministic. Fast to diagnose. Each layer outward allows more randomness, and it needs more signals to stay honest. The outer layer tests complete behavior and the UX. If you start there, you spend the morning arguing about a paragraph.
+The core is a guardrail check. Small. Deterministic. Fast to diagnose. Each layer outward allows more randomness, and it needs more signals to stay reliable. The outer layer tests complete behavior and the UX. Starting there spends the review on the wording of one paragraph.
 
 ![Eval onion: core is safety and harness health, middle is context and tools, outer is response and multi-turn. Randomness grows outward.](/images/2026-10-14-ai-product-in-finance-5-close-loop/fig-02.png)
 
@@ -200,7 +200,7 @@ eval/offline/fixtures
     └── pending_ach_deposit.yaml
 ```
 
-**Case.** The question under test. `query` is the user turn. History, the persona preset, and the scenario are names, not copies. Tags are a list. Scorers still compose per case, the same way as the gym. I am not going to paste that schema again.
+**Case.** The question under test. `query` is the user turn. History, the persona preset, and the scenario are names, not copies. Tags are a list. Scorers still compose per case, as they do in the gym. The scorer schema is unchanged from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/).
 
 ```yaml
 - id: experimental_one_shot
@@ -211,7 +211,7 @@ eval/offline/fixtures
   tags: [deposit]
 ```
 
-**History.** Turns already on the thread. Role and content. Not a tool dump — that cut is [Part 2](/blog/posts/building-an-ai-product-in-finance-2-agent-loop/). The file is the shelf the tester starts from.
+**History.** Turns already on the thread. Role and content. Tool traces are separate, and that split is in [Part 2](/blog/posts/building-an-ai-product-in-finance-2-agent-loop/). The file is the thread the tester starts from.
 
 ```yaml
 - role: user
@@ -222,7 +222,7 @@ eval/offline/fixtures
 
 **Persona.** Who the customer is. Timezone, identity, features such as crypto, options, and margin, the accounts they hold. It changes slowly. Many questions reuse it. The shape is in Part 4. A persona is a profile, not a person.
 
-**Scenario.** What is going on today, bound to one persona. It carries the clock and the story. The facts are the contract. Any number or state the assistant might quote belongs here, and the mocked backends must return it. Part 4 called that latch the thing the synthesizer is not allowed to contradict. Same rule. I am not pasting the ACH YAML twice.
+**Scenario.** The situation for this session, bound to one persona. It carries the clock and the story. The facts are the contract. Any number or state the assistant might quote belongs here, and the mocked backends must return it. Part 4 called that latch the constraint the synthesizer is not allowed to contradict. The same rule applies. The ACH fixture is the one from Part 4.
 
 ---
 
@@ -235,7 +235,7 @@ Single-turn, offline, one fixture:
 just eval --env offline --product <product> --fixtures <single_turn_fixture>
 ```
 
-Multi-turn is the same command with a different fixture. Inside, a tester agent plays the user. A policy keeps it on the plot. Then the eval grades the context the two of them just wrote.
+Multi-turn is the same command with a different fixture. Inside, a tester agent plays the user. A policy keeps the tester on the scenario. The eval then grades the context the two of them produced.
 
 ```text
 context = tester_agent(agent_under_test, policy())
@@ -246,7 +246,7 @@ report = eval(context)
 just eval --env offline --product <product> --fixtures <multi_turns_fixture>
 ```
 
-When I want to sit in the loop myself, there is a repl. Same blocks. I type the user turns. Here is one session. The URIs stay redacted.
+When I run the loop directly, there is a REPL. The same blocks apply. I type the user turns. One session is below. The URIs stay redacted.
 
 ```text
 $ just eval-repl --history=<history> --persona=<persona> --scenario=<scenario> --product=<product>
@@ -268,9 +268,9 @@ assistant: On it, let me forward to you our support.
 [in_app_destination] uri=<redacted>
 ```
 
-The heartbeat is the harness still in the loop. The table and the chart are widgets, not a second essay. The last turn is an in-app destination. That is the outer-layer structure check in the onion: the navigation link has somewhere to land.
+The heartbeat shows the harness is still in the loop. The table and the chart are widgets, not additional prose. The last turn is an in-app destination. That is the outer-layer structure check in the onion: the navigation link has a destination.
 
-Engineers contribute cases. Engineers contribute scorers. The runner does not care who wrote the YAML. A new harness change — a tool, a packing of the window, a skill — gets a case in the same PR, and the core is the first signal. Tokens, cache rate, TTFT, TTFB, duration, steps, tool count. I do not wait for a sentiment trajectory to tell me the prefix doubled.
+Engineers contribute cases. Engineers contribute scorers. The runner treats those files the same regardless of author. A harness change — a tool, a packing of the window, a skill — gets a case in the same PR, and the core is the first signal. Tokens, cache rate, TTFT, TTFB, duration, steps, tool count. I do not wait for a sentiment trajectory to report that the prefix doubled.
 
 The CLI is the offline run. The daily job is the online cron. The weekly agent proposes the next fixture. I still merge it.
 
@@ -279,6 +279,6 @@ The CLI is the offline run. The daily job is the online cron. The weekly agent p
 Next
 ----
 
-That is the loop. Offline when I am in the change. Daily when the harness is already in production. Weekly when a miss should become a fixture.
+That is the loop. Offline while I am making the change. Daily once the harness is in production. Weekly when a miss should become a fixture.
 
-I do not have a sixth post lined up. The onion only stays fast if the core stays small.
+A sixth post is not planned. The onion stays fast only while the core stays small.
