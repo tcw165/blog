@@ -10,33 +10,7 @@ cover:
   alt: "Cartoon portal title card for the series Building an AI Product in Finance, Part 5: Close-loop Automation"
 ---
 
-[Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/) was the sandbox. This post is the loop that closes on it.
-
-The gym in [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) already runs each morning. The sandbox already runs the same cases on a laptop. The missing piece was one platform, and a path from a miss to a fixture that does not require retyping the YAML.
-
----
-
-Story — a passing case
-----------------------
-
-A case can pass and the harness can still be degraded.
-
-A prompt is edited. A tool is added. I try one chat. The answer looks fine. The next morning the pass line is flat. A week later the first block is late, the prefix has grown, and the input cache is worse. Pass / fail did not report that. It graded the answer. It did not grade the machine that produced it.
-
-We tried the usual answers:
-
-- **Only the morning pass / fail.** Honest about cases. Blind to a larger prompt, a longer loop, a tool mounted by mistake.
-- **Only an outer judge on every change.** The review focuses on tone. The defect was token size.
-- **Only offline.** Iteration is fast. Drift on live traces is never observed.
-- **Only online.** Production surfaces the defect the laptop could have caught.
-- **A human rereads sampled traces.** That is QA. It is not a loop until the miss becomes a fixture in git.
-
-We kept one suite. We run it two ways. The inner layer watches the harness. The outer layer watches the answer.
-
----
-
-Three verticals
----------------
+# Three Verticals
 
 Eval-driven development helps any agentic product in three places. I keep them separate so a number from one does not answer a question from another.
 
@@ -48,8 +22,7 @@ None of that is a new runner. It is the same cases, on a different schedule.
 
 ---
 
-One platform
-------------
+# One Platform
 
 One eval platform. Online and offline both read fixtures in code. A case is a history, a persona, and a scenario. Persona and scenario are the blocks from [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/). History is the turns already on the thread.
 
@@ -63,8 +36,7 @@ Weekly, an optimizer agent turns a miss into a fixture change and opens a PR sta
 
 ---
 
-The onion
----------
+## The Onion
 
 The eval stack is an onion.
 
@@ -180,8 +152,7 @@ Two ways to run it.
 
 ---
 
-Shared Building Blocks
------------------------
+## Shared Building Blocks
 
 A case points at one history, one persona, one scenario. The product selects the suite. Offline, the tree looks like this. Persona and scenario are the fixtures Part 4 already defined. History is the block that was missing. The parent is `conservative_parent`, same file as the sandbox.
 
@@ -226,16 +197,23 @@ eval/offline/fixtures
 
 ---
 
-How you run it
---------------
+# How You Run It
 
-Single-turn, offline, one fixture:
+- [Single-turn Eval](#single-turn-eval)
+- [Multi-turn Eval](#multi-turn-eval)
+- [Interactive Eval (REPL)](#interactive-eval-repl)
+
+## Single-turn Eval
+
+Offline, one fixture:
 
 ```text
 just eval --env offline --product <product> --fixtures <single_turn_fixture>
 ```
 
-Multi-turn is the same command with a different fixture. Inside, a tester agent plays the user. A policy keeps the tester on the scenario. The eval then grades the context the two of them produced.
+## Multi-turn Eval
+
+The same command, with a different fixture. A tester agent plays the user. A policy keeps the tester on the scenario. The eval then grades the context the two of them produced.
 
 ```text
 context = tester_agent(agent_under_test, policy())
@@ -246,7 +224,9 @@ report = eval(context)
 just eval --env offline --product <product> --fixtures <multi_turns_fixture>
 ```
 
-When I run the loop directly, there is a REPL. The same blocks apply. I type the user turns. One session is below. The URIs stay redacted.
+## Interactive Eval (REPL)
+
+The same blocks. I type the user turns. One session is below. The URIs stay redacted.
 
 ```text
 $ just eval-repl --history=<history> --persona=<persona> --scenario=<scenario> --product=<product>

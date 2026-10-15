@@ -53,9 +53,17 @@ export function extract_headings(
 ): { depth: number; text: string; id: string }[] {
   const headings: { depth: number; text: string; id: string }[] = [];
   const lines = markdown.split('\n');
+  let in_fence = false;
 
   for (let index = 0; index < lines.length; index += 1) {
-    const atx = /^(#{2,3})\s+(.+?)\s*#*\s*$/.exec(lines[index] ?? '');
+    const line = lines[index] ?? '';
+    if (/^(```|~~~)/.test(line.trim())) {
+      in_fence = !in_fence;
+      continue;
+    }
+    if (in_fence) continue;
+
+    const atx = /^(#{1,3})\s+(.+?)\s*#*\s*$/.exec(line);
     if (atx) {
       const text = strip_inline_markup(atx[2] ?? '');
       headings.push({
