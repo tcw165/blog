@@ -1,6 +1,6 @@
 ---
 title: "Building an AI Product in Finance, Part 5: Close-loop Automation"
-description: "One eval platform, two clocks: an onion of checks, harness health at the core, and a weekly agent that turns a miss into a fixture PR."
+description: "One eval platform: an onion of checks, harness health at the core, and a weekly agent that turns a miss into a fixture PR."
 pubDate: 2026-10-14
 categories:
   - AI
@@ -12,7 +12,7 @@ cover:
 
 [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/) was the sandbox. This post is the loop that closes on it.
 
-The gym in [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) already runs in the morning. The sandbox already lets me run the same cases on a laptop. What I wanted next was one platform, two clocks, and a way for a miss to become a fixture without me retyping the YAML.
+The gym in [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) already runs in the morning. The sandbox already lets me run the same cases on a laptop. What I wanted next was one platform, and a way for a miss to become a fixture without me retyping the YAML.
 
 ---
 
@@ -44,28 +44,20 @@ Eval-driven development helps any agentic product in three places. I keep them s
 - **Production monitoring.** Online, continuous. The same suites on sampled live traces. Drift, a regression, an incident — within hours, not after a ticket.
 - **Model selection.** The same suites, the same fixtures, candidate models side by side. Quality sits next to cost and latency. I do not pick a model from a demo.
 
-None of that is a new runner. It is the same cases, pointed at a different clock.
+None of that is a new runner. It is the same cases, pointed at a different schedule.
 
 ---
 
 One platform
 ------------
 
-Online and offline both read fixtures in code. A case is a history, a persona, and a scenario. Persona and scenario are the blocks from [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/). History is the turns already on the thread.
-
-The short version is one loop.
-
-![One eval platform: fixtures split into offline runs and daily online runs over sampled production traces. Reports and a dashboard feed a weekly optimizer. A fixture-change PR stack closes the loop.](/images/2026-10-14-ai-product-in-finance-5-close-loop/fig-01.png)
-
-Fixtures in. Two clocks out. Reports. A weekly agent. A PR stack back to the fixtures.
-
-The long version is that loop with the runners drawn.
+One eval platform. Online and offline both read fixtures in code. A case is a history, a persona, and a scenario. Persona and scenario are the blocks from [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/). History is the turns already on the thread.
 
 ![Eval platform. Online: daily eval and a weekly learner over traces run single-turn and multi-turn, write reports, update a dashboard, and an optimizer posts fixture changes as a PR stack. Offline: CI and an eval agent, or an engineer, run the REPL and a reporter posts to Slack. A case is history, persona, and scenario. The PR comes back as feedback with engineers in the loop.](/images/2026-10-14-ai-product-in-finance-5-close-loop/fig-03.png)
 
 Online starts from a daily eval and a weekly learner over production traces.
 
-Daily, the single-turn and multi-turn runs write online reports and publish them to the dashboards from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/).
+Daily, single-turn and multi-turn runs write online reports and publish them to the production dashboards from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/).
 
 Weekly, an optimizer agent turns a miss into a fixture change and opens a PR stack. [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/)'s sampler never wrote a customer into git. This is that door on a schedule. The diff can be a case, a scorer, or the world the case runs in. A person still lands it.
 
@@ -282,13 +274,13 @@ The heartbeat is the harness still in the loop. The table and the chart are widg
 
 Engineers contribute cases. Engineers contribute scorers. The runner does not care who wrote the YAML. A new harness change — a tool, a packing of the window, a skill — gets a case in the same PR, and the core is the first signal. Tokens, cache rate, TTFT, TTFB, duration, steps, tool count. I do not wait for a sentiment trajectory to tell me the prefix doubled.
 
-The CLI is the offline clock. The daily job is the online clock. The weekly agent proposes the next fixture. I still merge it.
+The CLI is the offline run. The daily job is the online cron. The weekly agent proposes the next fixture. I still merge it.
 
 ---
 
 #### Good
 
-- One suite, two clocks. Offline while the change is in front of me. Daily once it is in production.
+- One suite. Offline while the change is in front of me. Daily once it is in production.
 - The core stays small. A guardrail miss or a fatter prefix does not wait on an outer judge.
 - Harness health is visible before the answer is graded. Tokens, cache, time to first block, steps, how many tools are mounted.
 - Persona, scenario, and history compose. Part 4 split the first two. A case names all three.
