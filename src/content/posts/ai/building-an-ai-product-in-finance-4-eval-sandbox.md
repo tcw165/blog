@@ -191,25 +191,6 @@ The facts in the scenario are the latch. The wording is the slack. If a fact is 
 
 ---
 
-#### Good
-
-- Local is the same agent. You mock what it actually calls, not a second product.
-- Persona and scenario compose. One parent, many plot twists. One plot twist, many parents.
-- Production teaches patterns. Git holds fiction. No PI / PII in the repo.
-- The synthesizer has a schema to fill, not a blank page. Shape in, payload out.
-- Side-effects can stay live. You still test the route. You do not test a real transfer.
-- A fixture PR is how the garden grows. The sampler proposes. An engineer lands it.
-
-#### Drawback
-
-- A synthesizer is another agent with opinions. It will invent a helpful row that the facts did not ask for. You have to fail those.
-- The control / synthesize cut is a taste. Drift it and the case is either a script or a coin flip.
-- Personas rot. Features change. A "gold: active" from last quarter is a different product.
-- Live side-effects on a laptop still have a blast radius. Keep that list short on purpose.
-- Pattern-from-prod only works if someone reads the sampler's PR. A quiet garden is how PI sneaks back in as "just one real example."
-
----
-
 Next
 ----
 

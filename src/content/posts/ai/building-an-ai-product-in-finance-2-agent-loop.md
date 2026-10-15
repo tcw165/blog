@@ -114,23 +114,6 @@ That is how you keep the static prefix stable while the chat gets long. The cons
 
 ---
 
-#### Good
-
-- The prefix is boring, so the input cache actually hits. P50 92% is the receipt.
-- Skills and sub-agents live in code. A PM can land a workflow skill without touching the runner.
-- The workflow plan is a latch on a DAG, not a second orchestrator. Determinism and hallucination get to share a turn.
-- The reminder is a small knob for parallel tool calls. You do not spend two thousand words of sys-prompt on "please call tools together."
-- Asymmetric history keeps the window on the conversation. The current turn still sees its own tools.
-
-#### Drawback
-
-- You own the packing. Get the static/dynamic cut wrong and the cache falls over, and you will not notice until the bill does.
-- Asymmetric history means last week's tool payload is invisible unless you promoted it. That is a feature until someone expected the raw JSON to still be there.
-- A workflow plan can become a second product. Keep it a latch. The moment it starts running the company, you have two loops.
-- An in-house loop is more code than wrapping a vendor. You pay that every time the model API grows a new idea.
-
----
-
 Next
 ----
 
