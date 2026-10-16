@@ -96,6 +96,11 @@ Here is my framework.
 </ul>
 </li>
 <li>Skill / workflow selection: expected vs unexpected</li>
+<li>Context relevancy: the right facts, not the most facts. Better RAG or graph search.</li>
+<li>Context poisoning: a wrong conclusion gets saved and treated as fact. Validate before writing.</li>
+<li>Context distraction: the history grows until it steers the agent. Compaction, or move state into files.</li>
+<li>Context confusion: too many tools or skills in the window. Curate with lazy loading or consolidation.</li>
+<li>Context clash: the window contradicts itself. Prune the stale version.</li>
 </ul>
 <p><strong>Relevancy and safety test</strong></p>
 <ul>
@@ -143,6 +148,8 @@ Here is my framework.
 </tbody>
 </table>
 </div>
+
+Poisoning, distraction, confusion, and clash follow IBM Technology's [walkthrough of context failure modes](https://youtu.be/BwXremQ-i6I).
 
 Two ways to run it.
 
