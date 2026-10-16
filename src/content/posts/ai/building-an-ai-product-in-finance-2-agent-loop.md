@@ -10,7 +10,7 @@ cover:
   alt: "Cartoon portal title card for the series Building an AI Product in Finance, Part 2: Agent Loop"
 ---
 
-[Part 1](/blog/posts/building-an-ai-product-in-finance-1-overview/) was the map. The worker owns the turn. The runner is the only box that talks to the model. This post is what actually runs inside that runner: the in-house agent loop, the prompt, and the context window.
+[Part 1](/blog/posts/building-an-ai-product-in-finance-1-overview/) was the map. The worker owns the turn. The runner is the only box that talks to the model. This post is what runs inside that runner: the in-house agent loop, the prompt, and the context window.
 
 I did not wrap a vendor loop.
 
@@ -19,32 +19,32 @@ I did not wrap a vendor loop.
 Story — why in-house
 --------------------
 
-A vendor agent framework is a great demo. You get tools, you get a loop, you ship a chat. Then finance shows up.
+A vendor agent framework is enough for a demo. It provides tools, a loop, and a chat. A brokerage product needs more than that.
 
-A PM wants a sequence: ask these questions, call this tool, render this widget. Compliance wants that sequence to be a DAG, not a vibe. The turn still has to be stoppable. The sys-prompt cannot become a novel. And the model — the model's greatest feature is hallucination, which is also the thing you cannot let loose on a tax lot.
+A PM wants a sequence: ask these questions, call this tool, render this widget. Compliance wants that sequence to be a DAG, not an open-ended generation. The turn still has to be stoppable. The sys-prompt cannot grow without a bound. The model's tendency to hallucinate cannot be left loose on a tax lot.
 
-So the loop had to be ours. Skills and sub-agents live **in code**. A PM can contribute a workflow skill. The runner does not change. The HTTP endpoint still does not run the agent.
+The loop had to be ours. Skills and sub-agents live **in code**. A PM can contribute a workflow skill. The runner does not change. The HTTP endpoint still does not run the agent.
 
-We quickly tried the usual answers:
+I tried the usual answers:
 
-- **Wrap a vendor loop.** Fast until you need to pack the window yourself, cancel a turn, or land a workflow without forking the framework.
-- **One giant few-shot sys-prompt.** Concrete examples rot. The model copies the example, not the pattern. The prompt grows. The cache dies.
-- **Dump every tool call into history.** The model "remembers" a JSON dump. You pay for yesterday's search on every turn. The window fills with the card catalog, not the conversation.
+- **Wrap a vendor loop.** Fast until the window has to be packed locally, a turn has to be cancelled, or a workflow has to land without forking the framework.
+- **One giant few-shot sys-prompt.** Concrete examples go stale. The model copies the example, not the pattern. The prompt grows. The cache misses.
+- **Store every tool call in history.** The model retains a JSON dump. Every later turn pays for the previous turn's search. The window fills with tool output, not the conversation.
 
-We kept the loop small, and we got picky about what goes in the window.
+The loop stays small. The window is selective about what it includes.
 
 ---
 
 Prompt
 ------
 
-Three things I actually believe:
+Three rules:
 
-- **Less is better.** The core sys-prompt stays under four thousand words. If a rule needs a page, it is a skill, not a sermon.
-- **Do not few-shot concrete examples.** Prompt *patterns of behavior*. An example of "this ticker, this tax lot" becomes a ritual. A pattern of "when the user asks about a lot, fetch the lot, then answer with the lot" survives the next ticker.
-- **Treat the model as an extremely smart librarian.** You do not teach a librarian what a book is. You steer the behavior you want to unearth: when to look, when to ask, when to stop.
+- **Less is better.** The core sys-prompt stays under four thousand words. If a rule needs a page, it is a skill, not part of the sys-prompt.
+- **Do not few-shot concrete examples.** Prompt *patterns of behavior*. An example of one ticker and one tax lot gets copied. A pattern — when the user asks about a lot, fetch the lot, then answer with the lot — still applies to the next ticker.
+- **Treat the model as a capable librarian.** Do not teach it what a book is. Specify the behavior: when to look, when to ask, when to stop.
 
-The sys-prompt is the constitution. Skills are the procedures. Sub-agents are people you send to a section of the stacks. None of that belongs in HTTP.
+The sys-prompt is the constitution. Skills are the procedures. Sub-agents are delegated to one part of the work. None of that belongs in HTTP.
 
 ---
 
@@ -59,7 +59,7 @@ This is how a turn is packed. Top to bottom, static then dynamic.
 
 - Core sys-prompt
 - Tool schemas
-- Session context — entry, environment, created timestamp, the boring facts that do not change mid-turn
+- Session context — entry, environment, created timestamp, the facts that do not change mid-turn
 - Pre-warm skills
 
 **Dynamic** is everything that moves:
@@ -68,11 +68,11 @@ This is how a turn is packed. Top to bottom, static then dynamic.
 - Workflow plan state — checked steps and a TODOs DAG
 - A step-in-loop reminder
 
-I am proud of this cut. We observe the harness input-cache rate at **P50 92%**. That number is not a vibe. It is what you get when the prefix is boring on purpose.
+The harness input-cache rate is **P50 92%**. That rate depends on a prefix that stays stable.
 
-The **workflow plan** is the latch. The model recommends a small state machine. Workflow skills prompt it hard — and a PM can write those skills. The plan is not "be an agent." It is a handle on a deterministic DAG: ask a question, call a tool, render a widget. Finance needs that latch. You want the librarian's imagination. You also want a door that only opens after the lot has been fetched.
+The **workflow plan** is the latch. The model proposes a small state machine. Workflow skills constrain it, and a PM can write those skills. The plan is not an open instruction to act. It is a deterministic DAG: ask a question, call a tool, render a widget. The model can still choose the wording. The plan does not advance until the lot has been fetched.
 
-The **step-in-loop reminder** sits at the bottom on purpose. It is the last thing the model reads before it acts. It tells the model when to opt into more **parallel** tool calls. Accuracy goes up. The response is better because the lookups happened together instead of as a timid one-at-a-time parade.
+The **step-in-loop reminder** sits at the bottom on purpose. It is the last thing the model reads before it acts. It tells the model when to use more **parallel** tool calls. Accuracy improves when the lookups happen together.
 
 One turn looks like this:
 
@@ -99,18 +99,18 @@ The runner owns that packing. The service does not. The endpoint does not.
 
 ---
 
-History, minus the tool dump
-----------------------------
+History without the tool trace
+-------------------------------
 
-Across turns, history is **visible messages only**. Not tool calls. The user saw a paragraph, a widget, an answer. That is what the librarian keeps on the shelf.
+Across turns, history is **visible messages only**. Not tool calls. The user saw a paragraph, a widget, an answer. That is what the next turn receives.
 
-The current turn is different. The model still sees this turn's tool tape — the lookups on the desk. Yesterday's JSON does not come back.
+The current turn is different. The model still sees this turn's tool trace. The previous turn's tool JSON does not come back.
 
-I call that **asymmetric history**. The conversation is durable. The card catalog is not. If a tool result still matters next turn, it has to become a visible message, or it has to land in compacted memory. Otherwise it is gone, which is the point.
+I call that **asymmetric history**. The conversation is durable. The tool trace is not. If a tool result still matters on the next turn, it has to become a visible message, or it has to land in compacted memory. Otherwise it is dropped.
 
-Compaction is not a paragraph stuffed into the sys-prompt. I made a **typed compacted-memory message**. It is a first-class cut-off. We decide where history exposed to the model ends. The model sees a typed object, not a blob of "summary:" hoping it behaves.
+Compaction is not a paragraph inserted into the sys-prompt. It is a **typed compacted-memory message**. It is a first-class boundary. I decide where the history exposed to the model ends. The model sees a typed object, not an unbounded "summary:" string.
 
-That is how you keep the static prefix stable while the chat gets long. The constitution does not grow. The shelf does.
+That keeps the static prefix stable as the chat grows. The sys-prompt does not grow. The visible history does.
 
 ---
 
@@ -119,4 +119,4 @@ Next
 
 The loop is only as honest as the eval that watches it.
 
-Next is [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) — the daily eval that tells us harness health every morning. Domain and case fixtures in the repo. Composable scorers. A CLI for the change you are about to land. After that, the sandbox: synthetic fixtures, no PI / PII stored, patterns learned from production sampling.
+Next is [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) — the daily eval that tells me harness health every morning. Domain and case fixtures in the repo. Composable scorers. A CLI for the change you are about to land. After that, the sandbox: synthetic fixtures, no PI / PII stored, patterns learned from production sampling.
