@@ -10,29 +10,29 @@ cover:
   alt: "Cartoon portal title card for the series Building an AI Product in Finance, Part 4: Eval Sandbox"
 ---
 
-[Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) was the gym. This post is how we fill it without storing a customer.
+[Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/) was the gym. This post is how I fill it without storing a customer.
 
-The daily eval is honest. It is also slow if the only way to run it is to land the change and wait for morning. I wanted the same cases on my laptop. I also wanted zero PI / PII in git.
+The daily eval is accurate. It is also slow when the only way to run it is to land the change and wait for morning. I wanted the same cases on my laptop, and no PI / PII in git.
 
 ---
 
 Story — waiting for morning
 ---------------------------
 
-The assistant does not live in a prompt. It lives on a pile of upstream services: transfers, lots, activity, help-center, in-app navigation. A YAML query without those dependencies is a brochure.
+The assistant does not run from a prompt alone. It depends on upstream services: transfers, lots, activity, the help center, and in-app navigation. A YAML query without those dependencies is a generic answer.
 
-So the first local loop I actually had was: push, wait, read the morning job, push again. That is not a development loop. That is a weather report.
+The first local loop was: push, wait, read the morning job, push again. That is a batch report, not a development loop.
 
-I kept asking the same question. How do I run the agent against my local change, and still resolve every dependency the system has — without a real customer record sitting on disk?
+The requirement was to run the agent against a local change, resolve every dependency, and keep a real customer record off disk.
 
-We quickly tried the usual answers:
+I tried the usual answers:
 
-- **Wait for the morning job.** Honest. Two days later you learn you broke a funding-deficiency case.
-- **Point local at staging.** Then you are testing their data, their clock, their outage. And staging still has people in it.
-- **Record and replay a real customer.** You just stored PI / PII. The fixture is now a liability.
-- **Hand-write a JSON mock for every tool.** You will not keep four hundred of those up to date. You will test the mock you felt like writing.
+- **Wait for the morning job.** Accurate. The funding-deficiency failure shows up on a later run, not while the change is open.
+- **Point local at staging.** The run then depends on staging data, staging's clock, and staging's availability. Staging still contains customer records.
+- **Record and replay a real customer.** The fixture then contains PI / PII. It is a liability.
+- **Hand-write a JSON mock for every tool.** Four hundred hand-written mocks do not stay current. The suite then covers only the mocks that were written.
 
-The cut that unlocked the rest: the agent never sees those upstream services. The agent sees **MCPs** and **tools**. Mock those, and the rest of the universe can stay home.
+The split that made the rest possible: the agent never sees those upstream services. The agent sees **MCPs** and **tools**. Mock those, and the upstream services stay out of the local run.
 
 Bazel packs the runnable image. Local is the same binary as the job. The only thing that changes is who answers the tool call.
 
@@ -41,7 +41,7 @@ Bazel packs the runnable image. Local is the same binary as the job. The only th
 The synthesizer
 ---------------
 
-I did not want a pile of recorded payloads. I wanted an agent whose job is to *invent* a tool result that fits a fixture.
+I did not want a store of recorded payloads. The synthesizer is an agent whose job is to produce a tool result that fits a fixture.
 
 The synthesizer takes a small, deliberate context:
 
@@ -56,22 +56,22 @@ That is the whole window. Goal at the top. Persona and scenario in the sys-promp
 
 ![Synthesizer model context: sys-prompt with goal, persona, scenario, and tool shape; tools such as web search; mocked in-app navigation; user turn as tool name plus args.](/images/2026-09-22-ai-product-in-finance-4-eval-sandbox/fig-01.png)
 
-The assistant under test still thinks it called `transfers`. What answered is another agent, holding a synthetic person and a plot twist.
+The assistant under test still believes it called `transfers`. The response comes from another agent, given a synthetic persona and a scenario.
 
 ---
 
 Offline, on the laptop
 ----------------------
 
-Here is a local run. Watch the tape.
+Here is a local run.
 
 `transfers`, `ach_transfer_history`, and `accountActivity` do not hit a backend. Each one opens `eval_tool_synthesizer`, gets a response, and continues. Side-effects that are safe to keep live — `case_intent`, `self_serve_flow` — still run. The agent can route a case. It cannot see a real deposit.
 
 ![Local offline eval: data tools intercepted by the synthesizer, side-effect tools left live.](/images/2026-09-22-ai-product-in-finance-4-eval-sandbox/fig-02.png)
 
-No customer record was loaded to make that picture. The persona is a file. The scenario is a file. The case that asked the question is a file. Production traffic taught us the *pattern*. Git holds the fiction.
+No customer record was loaded for that run. The persona is a file. The scenario is a file. The case is a file. Production traffic supplied the pattern. Git stores the synthetic fixture.
 
-A separate process can sample production, learn those patterns, and open a PR that updates a persona or a scenario. The sampler never writes a row of PI / PII into the repo. The PR is the only door.
+A separate process can sample production, learn those patterns, and open a PR that updates a persona or a scenario. The sampler never writes a row of PI / PII into the repo. A fixture enters git only through that PR.
 
 ```mermaid
 flowchart LR
@@ -97,7 +97,7 @@ A **persona** is who the customer is. Conservative parent. Student. Professional
 
 A **scenario** is what is going on *today*. Buying power held by options. Position closing only. A worthless security. A pending ACH. An unexpected post-trade debit. A failed withdrawal.
 
-The persona can show up in many plots. The plot can happen to many personas. If you glue them into one "David had a bad ACH" fixture, you cannot reuse either half.
+A persona can appear in many scenarios. A scenario can apply to many personas. Combined into one fixture, neither half can be reused.
 
 ```
 eval/fixtures/
@@ -170,24 +170,24 @@ facts:
       bank_account_nickname: Checking
 ```
 
-David Hale does not exist. The ACH did not happen. The pattern — bank shows a debit, the app never posted it — is what we learned from production. That is the only thing we were allowed to keep.
+David Hale does not exist. The ACH did not happen. The pattern — bank shows a debit, the app never posted it — is what I learned from production. That is the only thing I was allowed to keep.
 
 ---
 
-How much you invent
--------------------
+How much to synthesize
+----------------------
 
-There is a trick, and I still get it wrong.
+The boundary is easy to get wrong.
 
-You can control the identity, the facts, the tool shape, the clock. You can let the synthesizer invent the JSON wording, an extra plausible row, the help-center flavor, the navigation copy.
+You can control the identity, the facts, the tool shape, and the clock. You can let the synthesizer produce the JSON wording, an extra plausible row, the help-center wording, and the navigation copy.
 
 ![Control versus synthesize: fixtures pin identity, facts, shape, and clock; the synthesizer writes the payload.](/images/2026-09-22-ai-product-in-finance-4-eval-sandbox/fig-03.png)
 
-Too much control and you wrote the mock by hand. You are back to a JSON file nobody updates.
+Too much control and the mock is hand-written. It becomes a JSON file that nobody updates.
 
-Too much synthesize and Tuesday's case is not Wednesday's case. The scorer starts grading the synthesizer's mood.
+Too much synthesis and Tuesday's case is not Wednesday's case. The scorer grades the synthesizer's variation instead of the assistant.
 
-The facts in the scenario are the latch. The wording is the slack. If a fact is in the YAML, the tool result has to honor it. Everything else can sound like a person.
+The facts in the scenario are the latch. The wording is the slack. If a fact is in the YAML, the tool result has to honor it. Everything else can vary.
 
 ---
 
