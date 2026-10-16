@@ -412,6 +412,12 @@ pre,
   white-space: pre;
 }
 
+.article pre[data-language='markdown'] code,
+.article pre[data-language='markdown'] .line {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
 .toc {
   margin: 1.4rem 0 2rem;
   padding: 1rem 1.1rem;
