@@ -5,6 +5,9 @@ pubDate: 2026-10-16
 categories:
   - AI
 toc: true
+cover:
+  src: /images/2026-10-16-ai-product-in-finance-6-deterministic-workflow/cover.jpg
+  alt: "Cartoon portal title card for the series Building an AI Product in Finance, Part 6: Deterministic Workflow"
 ---
 
 An agent skill is great. It is not enough.
