@@ -52,11 +52,12 @@ Recap: a workflow via agent skills, plus something.
 
 The better frame is this. I need the agent to translate a professional's write-up into a persisted DAG, and to record where that DAG currently is.
 
-From there I have three things.
+From there I have four things.
 
 - A plan skill
 - Four tools paired with the skill
 - A database
+- A collection of workflow skills
 
 ## The `plan/SKILL.md` skill
 
@@ -94,6 +95,23 @@ End the plan with status of completed, failed or cancelled. Put a note for the r
 # Plan Shape
 
 Keep plans terse. Prefer steps anyone could read at a glance.
+````
+
+## A collection of workflow skills
+
+The plan skill is the general instruction. The procedures live in a collection of workflow skills. A person who knows the business writes one. The model translates that write-up into the plan for the request in front of it.
+
+ACAT reimbursement is one skill in that collection. The linear write-up is the same chain as above.
+
+````markdown
+# ACAT reimbursement
+
+Use this when the user asks whether an ACAT transfer was credited.
+
+1. Already credited in this thread?
+2. List ACAT transfers.
+3. One or many records?
+4. Clarify with the user.
 ````
 
 ## The plan tools
