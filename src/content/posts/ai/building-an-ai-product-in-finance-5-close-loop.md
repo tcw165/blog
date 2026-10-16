@@ -24,7 +24,7 @@ None of that is a new runner. It is the same cases, on a different schedule.
 
 # One Platform
 
-One eval platform. Online and offline both read fixtures in code. A case is a history, a persona, and a scenario. Persona and scenario are the blocks from [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/). History is the turns already on the thread.
+One eval platform. Online and offline both read fixtures in code. A case is a history, a persona, and a scenario. A persona is the profile the questions reuse. A scenario is this session's clock and the facts the mocks must return. History is the turns already on the thread.
 
 ![Eval platform. Online: daily eval and a weekly learner over traces run single-turn and multi-turn, write reports, update a dashboard, and an optimizer posts fixture changes as a PR stack. Offline: CI and an eval agent, or an engineer, run the REPL and a reporter posts to Slack. A case is history, persona, and scenario. The PR comes back as feedback with engineers in the loop.](/images/2026-10-14-ai-product-in-finance-5-close-loop/fig-03.png)
 
@@ -32,7 +32,7 @@ Online starts from a daily eval and a weekly learner over production traces.
 
 Daily, single-turn and multi-turn runs write online reports and publish them to the production dashboards from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/).
 
-Weekly, an optimizer agent turns a miss into a fixture change and opens a PR stack. [Part 4](/blog/posts/building-an-ai-product-in-finance-4-eval-sandbox/)'s sampler never wrote a customer into git. That constraint now runs on a schedule. The diff can be a case, a scorer, or the environment the case runs in. A person still merges it.
+Weekly, an optimizer agent turns a miss into a fixture change and opens a PR stack. The sampler never writes a customer into git. That constraint runs on a schedule. The diff can be a case, a scorer, or the environment the case runs in. A person still merges it.
 
 ---
 
@@ -154,46 +154,103 @@ Two ways to run it.
 
 ## Shared Building Blocks
 
-A case points at one history, one persona, one scenario. The product selects the suite. Offline, the tree looks like this. Persona and scenario are the fixtures Part 4 already defined. History is the block that was missing. The parent is `conservative_parent`, same file as the sandbox.
+A case points at one history, one persona, one scenario. The product selects the suite. Offline, the tree looks like this. The example is one subscription. Its statement has posted on the 3rd of each month for eight months.
 
 ```
 eval/offline/fixtures
 ├── cases/
 │   ├── product_1/
-│   │   └── experimental_one_shot_test.yaml
+│   │   └── subscription_statement.yaml
 │   └── red-team-100.yaml
 ├── history/
 │   └── talk_to_agent.yaml
 ├── personas/
-│   └── conservative_parent.yaml
+│   └── research_subscriber.yaml
 └── scenarios/
     ├── general.yaml
-    └── pending_ach_deposit.yaml
+    └── subscription_eight_months.yaml
 ```
 
 **Case.** The question under test. `query` is the user turn. History, the persona preset, and the scenario are names, not copies. Tags are a list. Scorers still compose per case, as they do in the gym. The scorer schema is unchanged from [Part 3](/blog/posts/building-an-ai-product-in-finance-3-daily-eval/).
 
 ```yaml
-- id: experimental_one_shot
-  query: Did the deposit post?
+- id: subscription_statement
+  query: Did the subscription statement post?
   history: talk_to_agent
-  persona_preset: conservative_parent
-  scenario: pending_ach_deposit
-  tags: [deposit]
+  persona_preset: research_subscriber
+  scenario: subscription_eight_months
+  tags: [subscription]
 ```
 
 **History.** Turns already on the thread. Role and content. Tool traces are separate, and that split is in [Part 2](/blog/posts/building-an-ai-product-in-finance-2-agent-loop/). The file is the thread the tester starts from.
 
 ```yaml
 - role: user
-  content: I want to know if a deposit posted.
+  content: I want to know if a subscription statement posted.
 - role: assistant
-  content: I can look. Which account?
+  content: I can look. Which subscription?
 ```
 
-**Persona.** Who the customer is. Timezone, identity, features such as crypto, options, and margin, the accounts they hold. It changes slowly. Many questions reuse it. The shape is in Part 4. A persona is a profile, not a person.
+**Persona.** Who the customer is. Timezone, identity, features such as crypto, options, and margin, the accounts they hold. It changes slowly. Many questions reuse it. A persona is a profile, not a person. This one holds a brokerage account and a cash account, and does not trade options.
 
-**Scenario.** The situation for this session, bound to one persona. It carries the clock and the story. The facts are the contract. Any number or state the assistant might quote belongs here, and the mocked backends must return it. Part 4 called that latch the constraint the synthesizer is not allowed to contradict. The same rule applies. The ACH fixture is the one from Part 4.
+```yaml
+name: research_subscriber
+timezone: America/Los_Angeles
+identity:
+  full_name: Morgan Ellis
+  email: morgan.ellis@example.com
+  account_number: "481920337"
+  state: WA
+features:
+  crypto:
+    status: disabled
+  options:
+    status: disabled
+  margin:
+    status: disabled
+accounts:
+  - account_number: "b77k12004"
+    account_type: brokerage_individual
+    nick_name: Long Book
+    is_default: true
+    cash: 4200.0
+  - account_number: "c12m88301"
+    account_type: cash
+    nick_name: Spending
+    is_default: false
+    cash: 860.0
+```
+
+**Scenario.** The situation for this session, bound to one persona. It carries the clock and the story. The facts are the contract. Any number or state the assistant might quote belongs here, and the mocked backends must return it. A fact in this file is a latch. The synthesizer is not allowed to contradict it.
+
+Eight statements. March 3 through October 3, 2026. Same merchant, same amount, the cash account, no skipped month. The clock is October 14. November has not come due.
+
+```yaml
+name: subscription_eight_months
+clock: "2026-10-14T09:30:00-07:00"
+story: >
+  Research Desk bills 29.00 USD on the 3rd of each month from the cash
+  account. Eight statements have posted, March 3 through October 3, 2026.
+  No month was skipped. No other subscription statement exists.
+facts:
+  statements:
+    - kind: subscription_statement
+      merchant: Research Desk
+      amount: 29.00
+      currency: USD
+      account: cash
+      posted_on:
+        - "2026-03-03"
+        - "2026-04-03"
+        - "2026-05-03"
+        - "2026-06-03"
+        - "2026-07-03"
+        - "2026-08-03"
+        - "2026-09-03"
+        - "2026-10-03"
+```
+
+Morgan Ellis does not exist. The eight statements did not happen. The pattern — a subscription posts on the same day, for the same amount, for eight months — is what the fixture keeps.
 
 ---
 
