@@ -158,7 +158,6 @@ The tools talk to a database scoped to the current session, the conversation, an
 
 ---
 
-Next
-----
-
 The skill is the write-up. The four tools are how the agent touches the plan. The database is where the current step lives after the model has moved on.
+
+I will leave it there.
