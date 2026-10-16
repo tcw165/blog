@@ -261,4 +261,6 @@ Next
 
 That is the loop. Offline while I am making the change. Daily once the harness is in production. Weekly when a miss should become a fixture.
 
-A sixth post is not planned. The onion stays fast only while the core stays small.
+Next is [Part 6](/blog/posts/building-an-ai-product-in-finance-6-deterministic-workflow/) — a persisted workflow plan. A skill names the tools. The record holds the DAG and the current step.
+
+The onion stays fast only while the core stays small.
