@@ -12,7 +12,7 @@ cover:
 
 An agent skill is great. It is not enough.
 
-A pretty good model, the kind that behaves like a genius generalist, can get me to about 70 to 80 percent of what I expect. The other 20 to 30 percent is still a chance of drifting or hallucinating. Adding more signals, more rules, and more examples to the context makes that worse. The model loses attention. It develops what I call model anxiety. It thinks longer, in the wrong direction.
+A pretty good model, the kind that behaves like a genius generalist, can get me to about 70 to 80 percent of what I expect. The other 20 to 30 percent is still a chance of drifting or hallucinating. Adding more signals, more rules, and more examples to the context makes that worse. The model loses attention. Every token competes for a fixed attention budget, so the more I add, the less reliably it uses any of it. That is **context rot**. Pile on tools and instructions the step does not need, and it starts picking the wrong one. That is **context confusion**. On top of both, it develops what I call **model anxiety**. It thinks longer, in the wrong direction. ([IBM Technology has a good 8-minute walkthrough of these failure modes.](https://youtu.be/BwXremQ-i6I))
 
 In a highly regulated industry, that 20 to 30 percent is the hard blocker on launch. Legal and compliance block it.
 
@@ -168,7 +168,7 @@ class PlanStep(BaseModel):
     next_on_failure: str
 ```
 
-`next_on_success` and `next_on_failure` are how the linear list in the skill becomes the graph. `recommended_tools` is the hint for that node.
+`next_on_success` and `next_on_failure` are how the linear list in the skill becomes the graph. `recommended_tools` is the hint for that node. It is also how I fight context confusion: each step sees the handful of tools it needs, not every tool the agent has.
 
 ## The database
 
