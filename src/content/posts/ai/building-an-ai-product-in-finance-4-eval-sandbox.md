@@ -54,6 +54,12 @@ The synthesizer takes a small, deliberate context:
 
 That is the whole window. Goal at the top. Persona and scenario in the sys-prompt. Tools the synthesizer itself may call. Then the user turn is just a tool name and a JSON args blob.
 
+I put `@mockable` on every tool the platform has. The decorator detects offline and production. Offline, it intercepts the function and delegates to the synthesizer, which imagines the data. A side-effect that should stay live still runs. In production the function runs.
+
+That is how the setup scales. I give just enough heuristics as a base: the context above. The synthesizer imagines a result for that tool and those inputs.
+
+It is fast and cheap. The local run does not call an upstream service, and I do not seed test data.
+
 ![Synthesizer model context: sys-prompt with goal, persona, scenario, and tool shape; tools such as web search; mocked in-app navigation; user turn as tool name plus args.](/images/2026-09-22-ai-product-in-finance-4-eval-sandbox/fig-01.png)
 
 The assistant under test still believes it called `transfers`. The response comes from another agent, given a synthetic persona and a scenario.
