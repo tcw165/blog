@@ -88,13 +88,6 @@ Here is my framework.
 <p><strong>Context engineering</strong></p>
 <ul>
 <li>Collection of personas and scenarios for product taxonomy</li>
-<li>Total context:
-<ul>
-<li>Repetitiveness</li>
-<li>Cohesiveness</li>
-<li>Relevancy</li>
-</ul>
-</li>
 <li>Skill / workflow selection: expected vs unexpected</li>
 <li>Context relevancy: the right facts, not the most facts. Better RAG or graph search.</li>
 <li>Context poisoning: a wrong conclusion gets saved and treated as fact. Validate before writing.</li>
