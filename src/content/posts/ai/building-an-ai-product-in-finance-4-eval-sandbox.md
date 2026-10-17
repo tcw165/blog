@@ -71,7 +71,7 @@ Offline, on the laptop
 
 Here is a local run.
 
-`transfers`, `ach_transfer_history`, and `accountActivity` do not hit a backend. Each one opens `eval_tool_synthesizer`, gets a response, and continues. Side-effects that are safe to keep live — `case_intent`, `self_serve_flow` — still run. The agent can route a case. It cannot see a real deposit.
+`transfers`, `ach_transfer_history`, and `account_activity` do not hit a backend. Each one opens `eval_tool_synthesizer`, gets a response, and continues. The synthesizer imagines that response from a persona, a scenario, the function description, the function args, and an explanation. Engineers control the data behind the tools. The run holds no PI / PII. A local run returns that feedback immediately, so development speed and confidence improve together.
 
 ![Local offline eval: data tools intercepted by the synthesizer, side-effect tools left live.](/images/2026-09-22-ai-product-in-finance-4-eval-sandbox/fig-02.png)
 
