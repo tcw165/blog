@@ -121,11 +121,13 @@ Here is my framework.
 <ul>
 <li>Number of paragraphs</li>
 <li>Response structure. e.g. In-app navigation link is always at the bottom.</li>
-<li>Fact grounding</li>
+<li>Factual correctness</li>
 </ul>
 <p><strong>Multi-turn analysis</strong></p>
 <ul>
 <li>Relevancy trajectory</li>
+<li>Fact trajectory</li>
+<li>Usefulness trajectory</li>
 <li>User sentiment trajectory</li>
 </ul>
 </td>
